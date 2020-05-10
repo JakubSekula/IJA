@@ -6,18 +6,21 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 public class Street implements Drawable {
-    private List<Shape> street = new ArrayList<>();
+    private Shape street;
     String id, name;
+    Coordinate middle;
+    Stop stop;
     List<Coordinate> coords = new ArrayList<Coordinate>();
-//    List<Stop> stops = new ArrayList<Stop>();
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
-        name = name;
+        this.name = name;
         coords.add(c0);
         coords.add(c1);
-        street.add(new Line(c0.getX(), c0.getY(), c1.getX(), c1.getY()));
+        street = new Line(c0.getX(), c0.getY(), c1.getX(), c1.getY());
     }
 
     public String getId(){
@@ -32,24 +35,25 @@ public class Street implements Drawable {
         return coords;
     }
 
-//    public List<Stop> getStops(){
-//        return stops;
-//    }
+    Stop getStop(){
+        return stop;
+    }
 
-//    public boolean addStop(Stop stop){
-//        try{
-//            if(inStreet(stop)){
-//                stops.add(stop);
-//                stop.setStreet(this);
-//            }
-//            else return false;
-//
-//        }
-//        catch (Exception e){
-//            return false;
-//        }
-//        return true;
-//    }
+    public boolean addStop(Stop stop){
+        try{
+            if(stop != null) {
+//                stop.position = getMiddle();
+                this.stop = stop;
+                stop.setStreet(this);
+            }
+            else return false;
+
+        }
+        catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 
     public Coordinate begin(){
         return coords.get(0);
@@ -59,7 +63,7 @@ public class Street implements Drawable {
         return coords.get(coords.size()-1);
     }
 
-    public boolean follows​(Street s){
+    public boolean follows(Street s){
         if(s.begin().equals(this.begin())){
             return true;
         }
@@ -75,8 +79,44 @@ public class Street implements Drawable {
         else return false;
     }
 
+    void countMiddle(Coordinate c0, Coordinate c1){
+        int startX = c0.getX();
+        int startY = c0.getY();
+        int endX = c1.getX();
+        int endY = c1.getY();
+
+        float midX = 0;
+        float midY = 0;
+
+        float XDifference = endX - startX;
+        float YDifference = endY - startY;
+
+        midX = abs( XDifference ) / 2;
+
+        midY = abs( YDifference ) / 2;
+
+        if( startX > endX ){
+            midX = endX + midX;
+        } else {
+            midX = startX + midX;
+        }
+
+        if( startY > endY ){
+            midY = endY + midY;
+        } else {
+            midY = startY + midY;
+        }
+        this.middle = new Coordinate( (int) midX, (int) midY );
+    }
+
+    public Coordinate getMiddle(){
+        countMiddle(this.begin(), this.end());
+        return middle;
+    }
+
+
     @Override
-    public List<Shape> getGUI() {
+    public Shape getGUI() {
         return street;
     }
 }

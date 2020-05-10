@@ -24,9 +24,11 @@ public class Main extends Application {
 
         ReadCSV map = new ReadCSV("newyork.csv", "Map");
         HashMap<String, Street> mapHash = map.getMapHash();
+        HashMap<String, Stop> stopsHash = map.getStopsHash();
 
         Controller controller = loader.getController();
         controller.setElements(new ArrayList(mapHash.values()));
+        controller.setElements(new ArrayList(stopsHash.values()));
     }
 
 

@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class ReadCSV {
     HashMap<String, Street> mapHash = new HashMap<String, Street>();
+    HashMap<String, Stop> mapStopsHash = new HashMap<String, Stop>();
+
 //    HashMap<String, Bus> busHash = new HashMap<String, Street>();
 //    HashMap<String, Line> lineHash = new HashMap<String, Street>();
 
@@ -34,6 +36,14 @@ public class ReadCSV {
                 Coordinate c2 = new Coordinate(Integer.parseInt(row[4]), Integer.parseInt(row[5]));
 
                 Street street = new Street(row[0], row[1], c1, c2);
+
+                if(row[6].equals("YES")){
+                    Stop stop = new Stop(row[0]);
+                    stop.position = street.getMiddle();
+                    street.addStop(stop);
+                    mapStopsHash.put(row[0], stop);
+                }
+
                 mapHash.put(row[0], street);
             }
             reader.close();
@@ -48,5 +58,9 @@ public class ReadCSV {
 
     HashMap<String, Street> getMapHash(){
         return mapHash;
+    }
+
+    HashMap<String, Stop> getStopsHash(){
+        return mapStopsHash;
     }
 }

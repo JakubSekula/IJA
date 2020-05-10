@@ -42,11 +42,11 @@ public class Coordinate {
         return new Coordinate(x, y);
     }
 
-    public int diffX​(Coordinate c) {
+    public int diffX(Coordinate c) {
         return x - c.getX();
     }
 
-    public int diffY​(Coordinate c) {
+    public int diffY(Coordinate c) {
         return y - c.getY();
     }
 }
