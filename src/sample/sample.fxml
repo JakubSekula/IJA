@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <BorderPane prefHeight="536.0" prefWidth="696.0" />
+      <SplitPane dividerPositions="0.10112359550561797" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="47.0" prefWidth="694.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+        </items>
+      </SplitPane>
+      <SplitPane dividerPositions="0.7621722846441947" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="750.0" prefWidth="1250.0">
+        <items>
+          <AnchorPane maxHeight="700.0" maxWidth="1200.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0">
+               <children>
+                  <ButtonBar layoutX="153.0" prefHeight="40.0" prefWidth="64.0" />
+                  <Slider layoutX="1165.0" layoutY="20.0" orientation="VERTICAL" prefHeight="529.0" prefWidth="14.0" />
+                  <ScrollBar layoutX="217.0" layoutY="10.0" />
+                  <ToggleButton layoutX="414.0" layoutY="4.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Zmena trasy" />
+                  <Button layoutX="336.0" layoutY="5.0" mnemonicParsing="false" text="Reset" />
+                  <Spinner layoutX="14.0" layoutY="7.0" />
+                  <AnchorPane fx:id="scene" layoutX="-1.0" layoutY="41.0" prefHeight="538.0" prefWidth="1162.0" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="64.0" prefWidth="1201.0">
+               <children>
+                  <AnchorPane fx:id="scene2" layoutY="1.0" prefHeight="172.0" prefWidth="1249.0" />
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</GridPane>
