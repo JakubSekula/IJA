@@ -199,14 +199,14 @@ public class ReadCSV {
         if( time.length() != 5 ){
             System.exit( 50 );
         }
-        int minutes = Integer.parseInt(time.substring(time.length() - 2));
+        int minutes = Integer.parseInt(time.substring(0,2));
         int another_departure = (int) 60/reps;
-        String departure = String.valueOf(another_departure * iter + minutes) + " : "+ time.substring(time.length() - 2);
-        if( departure.length() == 6 ){
+        String departure = String.valueOf(another_departure * iter + minutes) + ":"+ time.substring(time.length() - 2);
+        if( departure.length() == 4 ){
             departure = "0" + departure;
         }
-        if(Integer.parseInt(departure.substring(departure.length() - 2)) >= 60){
-            departure = String.valueOf(Integer.parseInt(departure.substring(departure.length() - 2)) - 60) + ":"+time.substring(time.length()-2);
+        if(Integer.parseInt(departure.substring(0,2)) >= 60){
+            departure = String.valueOf(Integer.parseInt(departure.substring(0,2)) - 60) + ":"+time.substring(time.length()-2);
             if(departure.length() == 4){
                 departure = "0"+departure;
             }
