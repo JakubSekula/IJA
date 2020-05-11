@@ -34,7 +34,7 @@ public class Main extends Application {
         HashMap<String, Line> lines = lined.getLineHash();
 
         ReadCSV bus = new ReadCSV("Bus.csv", "Bus", mapHash, lines);
-        HashMap<String, Bus> busses = bus.getBusHash();
+        HashMap<String, HashMap<String, Bus>> busses = bus.getBusHash();
 
         Controller controller = loader.getController();
         controller.setElements(new ArrayList(mapHash.values()));

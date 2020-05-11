@@ -114,6 +114,14 @@ public class Street implements Drawable {
         return middle;
     }
 
+    public Coordinate getStreetStart(){
+        return coords.get(0);
+    }
+
+    public Coordinate getStreetEnd(){
+        return coords.get(coords.size()-1);
+    }
+
 
     @Override
     public Shape getGUI() {
