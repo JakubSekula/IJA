@@ -95,6 +95,7 @@ public class ReadCSV {
                         System.exit(56);
                     }
                     entire.get(cnt).add(separate[1]);
+                    link.stoptime.add(entire.get(cnt));
                     cnt++;
                 }
                 entire.add(entire.get(0));
