@@ -9,14 +9,14 @@ public class Line {
     List<Street> streets = new ArrayList<Street>();
     HashMap<String, List<List<String>>> stoptimes = new HashMap<String, List<List<String>>>();
     List<List<String>> stoptime = new ArrayList<List<String>>();
-    String reps;
+    int reps;
 
     public Line(String str){
         id = str;
     }
 
     public void setReps(String repeats){
-        this.reps = repeats;
+        this.reps = Integer.parseInt(repeats);
     }
 
     public void fillMap(String id, List<List<String>> stoptime){

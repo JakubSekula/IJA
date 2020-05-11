@@ -22,9 +22,19 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        ReadCSV map = new ReadCSV("newyork.csv", "Map");
+        HashMap<String, Street> phony = new HashMap<>();
+        HashMap<String, Line> phonyl = new HashMap<>();
+
+        ReadCSV map = new ReadCSV("newyork.csv", "Map", phony, phonyl);
+
         HashMap<String, Street> mapHash = map.getMapHash();
         HashMap<String, Stop> stopsHash = map.getStopsHash();
+
+        ReadCSV lined = new ReadCSV("Bus.csv", "Bus", mapHash, phonyl);
+        HashMap<String, Line> lines = lined.getLineHash();
+
+        ReadCSV bus = new ReadCSV("Bus.csv", "Bus", mapHash, lines);
+        HashMap<String, Bus> busses = bus.getBusHash();
 
         Controller controller = loader.getController();
         controller.setElements(new ArrayList(mapHash.values()));
