@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class ReadCSV {
     HashMap<String, Street> mapHash = new HashMap<String, Street>();
     HashMap<String, Stop> mapStopsHash = new HashMap<String, Stop>();
+    HashMap<String, Line> mapLineHash = new HashMap<String, Line>();
+    //HashMap<String, Bus> mapBusHash = new HashMap<String, Bus>();
 
 //    HashMap<String, Bus> busHash = new HashMap<String, Street>();
 //    HashMap<String, Line> lineHash = new HashMap<String, Street>();
@@ -63,4 +65,12 @@ public class ReadCSV {
     HashMap<String, Stop> getStopsHash(){
         return mapStopsHash;
     }
+
+    HashMap<String, Line> getLineHash(){
+        return mapLineHash;
+    }
+
+//    HashMap<String, Bus> getBusHash(){
+//        return mapBusHash;
+//    }
 }
