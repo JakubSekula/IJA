@@ -80,7 +80,7 @@ public class ReadCSV {
                 Line link = new Line(row[0]);
                 link.setReps(row[1]);
                 int cntStop = 0;
-                link.stoptime.add(new ArrayList<String>());
+//                link.stoptime.add(new ArrayList<String>());
                 List<List<String>> entire = new ArrayList<List<String>>();
 
                 int cnt = 0;
@@ -130,6 +130,7 @@ public class ReadCSV {
                 }
 
                 int iter = 0;
+                this.mapBusHash.put(row[0], new HashMap<String, Bus>());
                 while(iter < lines.get(row[0]).reps){
                     List<String> times = new ArrayList<String>();
                     List<List<String>> test = lines.get(row[0]).getStopInfo(row[0]);
@@ -179,11 +180,12 @@ public class ReadCSV {
                     }
                     bus.setStart(times.get(0));
                     bus.getStops();
-                    busHash.put(String.valueOf(iter), bus);
+//                    busHash.put(String.valueOf(iter), bus);
+                    this.mapBusHash.get(row[0]).put(String.valueOf(iter), bus);
                     iter++;
                 }//while(iter < lines.get(row[0]).reps)
-                this.mapBusHash.put(row[0], busHash);
-                busHash.clear();
+//                this.mapBusHash.put(row[0], busHash);
+//                busHash.clear();
             }//while (reader.hasNextLine())
 
         } catch (FileNotFoundException e) {
