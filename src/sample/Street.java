@@ -122,6 +122,18 @@ public class Street implements Drawable {
         return coords.get(coords.size()-1);
     }
 
+    public boolean equals(Street street){
+        if( ( this.getStreetEnd().getX() == street.getStreetStart().getX() && this.getStreetEnd().getY() == street.getStreetStart().getY() ) ||
+        ( this.getStreetEnd().getX() == street.getStreetEnd().getX() && this.getStreetEnd().getY() == street.getStreetEnd().getY() )){
+            return true;
+        } else if( ( this.getStreetStart().getX() == street.getStreetEnd().getX() && this.getStreetStart().getY() == street.getStreetEnd().getY() ) ||
+        ( this.getStreetStart().getX() == street.getStreetStart().getX() && this.getStreetStart().getY() == street.getStreetStart().getY() ) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public Shape getGUI() {

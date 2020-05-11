@@ -36,7 +36,7 @@ public class Stop implements Drawable{
         if(o == null || o.getClass() != this.getClass())
             return false;
         else{
-            return (((Stop) o).getId() == this.getId());
+            return (((Stop) o).getId().equals(this.getId()));
         }
     }
 

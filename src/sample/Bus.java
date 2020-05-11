@@ -62,6 +62,7 @@ public class Bus implements Drawable, Time{
 
     void setRout(String streetId){
         int size = route.size();
+
         if( size == 0 ){
             // prvni vzdy pushuji
             route.add( streets.get(streetId) );

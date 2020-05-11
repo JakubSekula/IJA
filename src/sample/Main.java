@@ -30,8 +30,10 @@ public class Main extends Application {
         HashMap<String, Street> mapHash = map.getMapHash();
         HashMap<String, Stop> stopsHash = map.getStopsHash();
 
-        ReadCSV lined = new ReadCSV("Bus.csv", "Bus", mapHash, phonyl);
+
+        ReadCSV lined = new ReadCSV("link.csv", "Line", mapHash, phonyl);
         HashMap<String, Line> lines = lined.getLineHash();
+        System.out.println(lines);
 
         ReadCSV bus = new ReadCSV("Bus.csv", "Bus", mapHash, lines);
         HashMap<String, HashMap<String, Bus>> busses = bus.getBusHash();

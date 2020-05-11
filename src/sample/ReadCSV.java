@@ -76,35 +76,33 @@ public class ReadCSV {
                 if(row[0].equals("")) {
                     break;
                 }
-//                HashMap<Integer, Line> instances = new HashMap<Integer, Line>();
+
                 Line link = new Line(row[0]);
                 link.setReps(row[1]);
-
-                List<String> stoptime = new ArrayList<String>();
+                int cntStop = 0;
+                link.stoptime.add(new ArrayList<String>());
                 List<List<String>> entire = new ArrayList<List<String>>();
 
+                int cnt = 0;
                 for(int i = 2; i < row.length; ++i){
                     String separate[] = row[i].split("/");
                     if(separate.length != 2){
                         System.exit(56);
                     }
-
-                    stoptime.add(separate[0]);
-                    if(streets.containsKey(separate[0])){
+                    entire.add(new ArrayList<String>());
+                    entire.get(cnt).add(separate[0]);
+                    if(!streets.containsKey(separate[0])){
                         System.exit(56);
                     }
-                    stoptime.add(separate[1]);
-                    link.stoptime.add(stoptime);
-                    entire.add(stoptime);
-                    stoptime.clear();
+                    entire.get(cnt).add(separate[1]);
+                    cnt++;
                 }
                 entire.add(entire.get(0));
-                stoptime.add(entire.get(0).get(0));
-                stoptime.add("99:99");
-                link.stoptime.add(stoptime);
-                stoptime.clear();
+                link.stoptime.get(cntStop).add(entire.get(0).get(0));
+                link.stoptime.get(cntStop).add("99:99");
                 link.fillMap(row[0], entire);
                 mapLineHash.put(row[0], link);
+                cntStop++;
             }
 
 
@@ -155,19 +153,19 @@ public class ReadCSV {
                         }
                         bus.setRout(row[i]);
                     }
-
+                    int cnt = 0;
                     for(int i = 0; i < lines.get(row[0]).stoptime.size(); ++i){
-                        List<String> list = new ArrayList<String>();
+                        bus.plannedStops.add(new ArrayList<String>());
+
                         if(i < lines.get(row[0]).stoptime.size() - 1){
-                            list.add(lines.get(row[0]).stoptime.get(i).get(0));
-                            list.add(getTimeDiff(lines.get(row[0]).stoptime.get(i).get(1), lines.get(row[0]).reps, iter));
+                            bus.plannedStops.get(cnt).add(lines.get(row[0]).stoptime.get(i).get(0));
+                            bus.plannedStops.get(cnt).add(getTimeDiff(lines.get(row[0]).stoptime.get(i).get(1), lines.get(row[0]).reps, iter));
                         }
                         else {
-                            list.add(lines.get(row[0]).stoptime.get(i).get(0));
-                            list.add(lines.get(row[0]).stoptime.get(i).get(1));
+                            bus.plannedStops.get(cnt).add(lines.get(row[0]).stoptime.get(i).get(0));
+                            bus.plannedStops.get(cnt).add(lines.get(row[0]).stoptime.get(i).get(1));
                         }
-                        bus.plannedStops.add(list);
-                        list.clear();
+                        cnt++;
                     }
 
                     int realstart;
@@ -176,7 +174,7 @@ public class ReadCSV {
 
                     String real = String.valueOf(realstart);
                     if(real.length() == 1){
-                        real = "0"+real;
+                        real = "0" + real;
                     }
                     bus.setStart(times.get(0));
                     bus.getStops();
