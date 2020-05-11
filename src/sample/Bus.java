@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 import java.time.LocalTime;
@@ -10,17 +12,84 @@ import java.util.List;
 import static java.lang.System.exit;
 
 public class Bus implements Drawable, Time{
+    List<Street> route = new ArrayList<Street>();
     private Shape bus;
     HashMap<String, Street> streets = new HashMap<String, Street>();
     String id, name;
     List<List<String>> plannedStops = new ArrayList<List<String>>();
-    List<Street> route = new ArrayList<Street>();
     List<String> stopsOnRoute = new ArrayList<String>();
     int currentStops = 0;
     String start;
     float posX, posY;
     Street current;
-    int currenti;
+    float toStop = 0;
+    int now = 0;
+    int currenti = 0;
+    float step;
+    boolean countDistance = true;
+    float travelledDistance = 0;
+
+    private void distanceBetweenStops(){
+        float distance = 0;
+        for( int i = currenti; i < route.size(); i++ ){
+            if( route.get( i ).getStop() != null ){
+                if( route.get( i ).getStop() != null && route.get( i ).getStop().getId().equals( plannedStops.get( now ).get( 0 ) ) ){
+                    distance = distance + ( route.get( i ).streetLength / 2 );
+                } else if ( route.get( i ).getStop() != null && route.get( i ).getStop().getId().equals( plannedStops.get( now + 1 ).get( 0 ) ) ) {
+                    distance = distance + ( route.get( i ).streetLength / 2 );
+                    break;
+                } else {
+                    distance = distance + ( route.get( i ).streetLength );
+                }
+            } else {
+                distance = distance + ( route.get( i ).streetLength );
+            }
+        }
+        toStop = distance;
+    }
+
+    private void countStep(){
+        step = toStop / ( int ) toStop;
+    }
+
+    private void countAdditions( float sx, float sy, float ex, float ey ){
+
+        if( countDistance ){
+            distanceBetweenStops();
+            countStep();
+            countDistance = false;
+        }
+
+        float XDiff = Math.abs( sx - ex );
+        float YDiff = Math.abs( sy - ey );
+
+        float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
+
+        if( currenti == 0 ){
+            hypotenuse = hypotenuse / 2;
+        }
+
+        hypotenuse = hypotenuse / step;
+
+        this.posX = posX + ( XDiff / hypotenuse );
+        this.posY = posY + ( YDiff / hypotenuse );
+
+    }
+
+    private void nextPos(){
+        if( currenti == 0 ){
+            if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
+                countAdditions( current.getStreetStart().getX(), current.getStreetStart().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
+            } else {
+                countAdditions( current.getStreetEnd().getX(), current.getStreetEnd().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
+            }
+        } else {
+
+        }
+
+        bus.setTranslateX( posX );
+        bus.setTranslateY( posY );
+    }
 
     @Override
     public Shape getGUI() {
@@ -29,7 +98,7 @@ public class Bus implements Drawable, Time{
 
     @Override
     public void update(LocalTime time) {
-
+        nextPos();
     }
 
     void getStreets(HashMap<String, Street> str){
@@ -46,6 +115,11 @@ public class Bus implements Drawable, Time{
                 stopsOnRoute.add(route.get(i).getStop().getId());
             }
         }
+
+        posX = route.get( 0 ).getMiddle().getX();
+        posY = route.get( 0 ).getMiddle().getY();
+
+        bus = new Circle( 0, 0, 5, Color.RED );
 
         // -1 protoze zastavka na konci je stejna jako na zacatku kvuli dojeti na zastavku
         for( int i = currentStops; i < stopsOnRoute.size() - 1; i++ ){
@@ -76,7 +150,7 @@ public class Bus implements Drawable, Time{
         this.posX = route.get(0).getStreetStart().getX();
         this.posY = route.get(0).getStreetStart().getY();
         this.current = route.get(0);
-        this.currenti = 1;
+        this.currenti = 0;
     }
 
 
