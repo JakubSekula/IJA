@@ -153,11 +153,11 @@ public class Street implements Drawable {
     public boolean Direction( Street s2 ){
         if( ( ( this.getStreetStart().getX() == s2.getStreetStart().getX() ) && ( this.getStreetStart().getY() == s2.getStreetStart().getY() ) ) ||
             ( ( this.getStreetStart().getX() == s2.getStreetEnd().getX() ) && ( this.getStreetStart().getY() == s2.getStreetEnd().getY() ) ) ){
-            // ma se poslat start, konec
-            return true;
-        } else {
             // ma se poslat konec, start
             return false;
+        } else {
+            // ma se poslat start, konec
+            return true;
         }
     }
 

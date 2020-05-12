@@ -26,6 +26,7 @@ public class Bus implements Drawable, Time{
     int now = 0;
     int currenti = 0;
     float step;
+    boolean recountStep = false;
     boolean countDistance = true;
     float travelledDistance = 0;
     boolean hasStop = true;
@@ -44,6 +45,7 @@ public class Bus implements Drawable, Time{
     private void switchStreet(){
         currenti++;
         current = route.get( currenti );
+        travelledDistance  = 0;
     }
 
     private void distanceBetweenStops(){
@@ -65,13 +67,15 @@ public class Bus implements Drawable, Time{
         toStop = distance;
     }
 
-    private void changePos( float XDiff, float YDiff, float hypotenuse ){
-        this.posX = posX + ( XDiff / hypotenuse / step );
-        this.posY = posY + ( YDiff / hypotenuse / step );
+    private void changePos( float stepX, float stepY ){
+        this.posX = this.posX + stepX;
+        this.posY = this.posY + stepY;
+        travelledDistance = travelledDistance + step;
     }
 
     private void countStep(){
         step = toStop / ( int ) toStop;
+        recountStep = false;
     }
 
     private void countAdditions( float sx, float sy, float ex, float ey ){
@@ -82,6 +86,10 @@ public class Bus implements Drawable, Time{
             countDistance = false;
         }
 
+        if( recountStep ){
+            countStep();
+        }
+
         shouldStop();
 
         float XDiff = Math.abs( sx - ex );
@@ -89,7 +97,37 @@ public class Bus implements Drawable, Time{
 
         float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
 
+        if( travelledDistance + step > hypotenuse ){
+            rest = step;
+            step = hypotenuse - travelledDistance;
+            rest = rest - step;
+            recountStep = true;
+            switchStreet();
+        }
 
+        float stepX = 0;
+        float stepY = 0;
+
+        if( hasStop ){
+            if( currenti == 0 ){
+                stepX =  XDiff / ( hypotenuse / ( step ) );
+                stepY =  YDiff / ( hypotenuse / ( step ) );
+
+            }
+        } else {
+            stepX =  XDiff / ( hypotenuse / ( step ) );
+            stepY =  YDiff / ( hypotenuse / ( step ) );
+        }
+
+        if( sx < ex && sy < ey ) {
+            changePos(stepX, stepY);
+        } else if ( sx < ex && sy > ey ){
+            changePos( stepX, -1 * stepY );
+        } else if ( sx > ex && sy < ey ){
+            changePos( -1 * stepX, stepY );
+        } else {
+            changePos( -1 * stepX, -1 * stepY );
+        }
 
     }
 
@@ -101,7 +139,11 @@ public class Bus implements Drawable, Time{
                 countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
             }
         } else {
-            System.out.println( "HERE" );
+            if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
+                countAdditions( current.getStreetStart().getX(), current.getStreetStart().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
+            } else {
+                countAdditions( current.getStreetEnd().getX(), current.getStreetEnd().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
+            }
         }
 
         bus.setTranslateX( posX );
