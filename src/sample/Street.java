@@ -122,10 +122,10 @@ public class Street implements Drawable {
     }
 
     void countMiddle(Coordinate c0, Coordinate c1){
-        int startX = c0.getX();
-        int startY = c0.getY();
-        int endX = c1.getX();
-        int endY = c1.getY();
+        float startX = c0.getX();
+        float startY = c0.getY();
+        float endX = c1.getX();
+        float endY = c1.getY();
 
         float midX = 0;
         float midY = 0;
@@ -148,7 +148,7 @@ public class Street implements Drawable {
         } else {
             midY = startY + midY;
         }
-        this.middle = new Coordinate( (int) midX, (int) midY );
+        this.middle = new Coordinate( (float) midX, (float) midY );
     }
 
     public Coordinate getMiddle(){

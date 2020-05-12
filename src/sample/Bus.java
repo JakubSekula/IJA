@@ -2,7 +2,6 @@ package sample;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import java.time.LocalTime;
@@ -34,6 +33,8 @@ public class Bus implements Drawable, Time{
     float rest = 0;
     boolean stopped = false;
     boolean changeDir = true;
+    boolean useRest = false;
+    boolean atEnd = false;
 
     private void shouldStop(){
         if( current.getStop() != null ){
@@ -46,6 +47,10 @@ public class Bus implements Drawable, Time{
     }
 
     private void switchStreet(){
+        if( currenti == route.size() - 1 ){
+            currenti = -1;
+            now = 0;
+        }
         currenti++;
         current = route.get( currenti );
         travelledDistance  = 0;
@@ -82,6 +87,22 @@ public class Bus implements Drawable, Time{
         recountStep = false;
     }
 
+    private void setNull(){
+        toStop = 0;
+        now = 0;
+        currenti = 0;
+        step = 0;
+        recountStep = false;
+        countDistance = true;
+        travelledDistance = 0;
+        hasStop = true;
+        rest = 0;
+        stopped = false;
+        changeDir = true;
+        useRest = false;
+        atEnd = false;
+    }
+
     private void countAdditions( float sx, float sy, float ex, float ey ){
 
         if( countDistance ){
@@ -104,27 +125,46 @@ public class Bus implements Drawable, Time{
         float stepX = 0;
         float stepY = 0;
 
+        if( useRest ){
+            System.out.println( "Using" );
+            step = step + rest;
+            recountStep = true;
+            useRest = false;
+            travelledDistance = 0;
+            rest = 0;
+        }
+
         if (travelledDistance + step > hypotenuse) {
             rest = step;
             step = hypotenuse - travelledDistance;
             rest = rest - step;
             recountStep = true;
-            switchStreet();
+            useRest = true;
+            if( atEnd == false ){
+                switchStreet();
+            }
         }
-
-        System.out.println( step );
-        System.out.println( hypotenuse );
 
         if( hasStop ){
             if( currenti == 0 ){
                 stepX =  XDiff / ( hypotenuse / ( step ) );
                 stepY =  YDiff / ( hypotenuse / ( step ) );
-
+                if( atEnd ){
+                    if( travelledDistance + step >= hypotenuse ){
+                        this.posX = current.getMiddle().getX();
+                        this.posY = current.getMiddle().getY();
+                        setNull();
+                        return;
+                    }
+                }
             } else {
-                if( travelledDistance + step > hypotenuse / 2 &&  stopped == false ){
+                if( travelledDistance + step >= hypotenuse / 2 &&  stopped == false ){
                     travelledDistance = hypotenuse / 2;
                     this.posX = current.getMiddle().getX();
                     this.posY = current.getMiddle().getY();
+                    if( atEnd ){
+                        return;
+                    }
                     now++;
                     stopped = true;
                     changeDir = false;
@@ -132,13 +172,11 @@ public class Bus implements Drawable, Time{
                 } else {
                     stepX = XDiff / (hypotenuse / ( step ) );
                     stepY = YDiff / (hypotenuse / ( step ) );
-                    rest = 0;
                 }
             }
         } else {
             stepX =  XDiff / ( hypotenuse / ( step ) );
             stepY =  YDiff / ( hypotenuse / ( step ) );
-            rest = 0;
         }
 
         if( changeDir ) {
@@ -158,6 +196,12 @@ public class Bus implements Drawable, Time{
     }
 
     private void nextPos(){
+        if( currenti == route.size() - 1 ){
+            currenti = 0;
+            current = route.get( currenti );
+            atEnd = true;
+            now = -1;
+        }
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
                 countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
@@ -173,6 +217,9 @@ public class Bus implements Drawable, Time{
         }
         bus.setTranslateX( posX );
         bus.setTranslateY( posY );
+
+        System.out.println( travelledDistance );
+
     }
 
     @Override
@@ -203,7 +250,7 @@ public class Bus implements Drawable, Time{
         posX = route.get( 0 ).getMiddle().getX();
         posY = route.get( 0 ).getMiddle().getY();
 
-        bus = new Circle( 0, 0, 4, Color.RED );
+        bus = new Circle( 0, 0, 1, Color.RED );
 
         // -1 protoze zastavka na konci je stejna jako na zacatku kvuli dojeti na zastavku
         for( int i = currentStops; i < stopsOnRoute.size() - 1; i++ ){

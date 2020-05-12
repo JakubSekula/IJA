@@ -1,10 +1,10 @@
 package sample;
 
 public class Coordinate {
-    int x;
-    int y;
+    float x;
+    float y;
 
-    public Coordinate(int x, int y) {
+    public Coordinate(float x, float y) {
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException();
         } else {
@@ -17,7 +17,7 @@ public class Coordinate {
      *
      * @return Souřadnice x.
      */
-    public int getX() {
+    public float getX() {
         return x;
     }
 
@@ -26,7 +26,7 @@ public class Coordinate {
      *
      * @return Souřadnice y.
      */
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -42,11 +42,11 @@ public class Coordinate {
         return new Coordinate(x, y);
     }
 
-    public int diffX(Coordinate c) {
+    public float diffX(Coordinate c) {
         return x - c.getX();
     }
 
-    public int diffY(Coordinate c) {
+    public float diffY(Coordinate c) {
         return y - c.getY();
     }
 }

@@ -43,6 +43,6 @@ public class Stop implements Drawable{
 
     @Override
     public Shape getGUI() {
-        return new Circle(position.getX(), position.getY(), 5, Color.BLUE);
+        return new Circle(position.getX(), position.getY(), 4, Color.BLUE);
     }
 }
