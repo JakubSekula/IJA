@@ -34,12 +34,15 @@ public class Controller {
     private TextField timeText;
     @FXML
     private ScrollPane scroll;
+    @FXML
+    private ToggleButton changeRoute;
 
     private List<Drawable> elements = new ArrayList<>();
     private List<Time> updates = new ArrayList<>();
     private Timer timer;
     private LocalTime time = LocalTime.of(12, 00, 00);
     long period = 1000;
+    public boolean changingLink = false;
 
 
     public void setElements(List<Drawable> elements){
@@ -96,6 +99,21 @@ public class Controller {
         scene.setScaleY(1);
         slider.setValue(0);
         speeder.setValue(0);
+        this.speedChange();
+        scroll.setHvalue(0.1);
+        scroll.setVvalue(0.1);
+    }
+
+    @FXML
+    private void onClickChange(){
+        if(changeRoute.isSelected()){
+            changeRoute.setText("Hotovo");
+            changingLink = true;
+        }
+        else{
+            changeRoute.setText("Zmena trasy");
+            changingLink = false;
+        }
     }
 
 }
