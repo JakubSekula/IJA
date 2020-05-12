@@ -2,31 +2,34 @@ package sample;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class ReadCSV {
-    HashMap<String, Street> mapHash = new HashMap<String, Street>();
-    HashMap<String, Stop> mapStopsHash = new HashMap<String, Stop>();
-    HashMap<String, Line> mapLineHash = new HashMap<String, Line>();
-    HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<String, HashMap<String, Bus>>();
-    HashMap<String, Bus> busHash = new HashMap<String, Bus>();
+    HashMap<String, Street> mapHash = new HashMap<>();
+    HashMap<String, Stop> mapStopsHash = new HashMap<>();
+    HashMap<String, Line> mapLineHash = new HashMap<>();
+    HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<>();
+    HashMap<String, Bus> busHash = new HashMap<>();
 
 //    HashMap<String, Bus> busHash = new HashMap<String, Street>();
 //    HashMap<String, Line> lineHash = new HashMap<String, Street>();
 
     public ReadCSV(String file, String fileType, HashMap<String, Street> streets, HashMap<String, Line> lines){
-        if( fileType.equals("Map") ){
-            loadMap( file );
-        } else if ( fileType.equals("Bus") ){
-            loadBus( file, streets, lines);
-        } else if ( fileType.equals("Line") ){
-            loadLine( file, streets);
-        }else {
-            System.exit( 32 );
+        switch (fileType) {
+            case "Map":
+                loadMap(file);
+                break;
+            case "Bus":
+                loadBus(file, streets, lines);
+                break;
+            case "Line":
+                loadLine(file, streets);
+                break;
+            default:
+                System.exit(32);
         }
     }
 
@@ -38,8 +41,8 @@ public class ReadCSV {
                 String line = reader.nextLine();
                 String[] row = line.split(",");
 
-                Coordinate c1 = new Coordinate(Integer.parseInt(row[2]), Integer.parseInt(row[3]));
-                Coordinate c2 = new Coordinate(Integer.parseInt(row[4]), Integer.parseInt(row[5]));
+                Coordinate c1 = new Coordinate(Integer.parseInt(row[2])+100, Integer.parseInt(row[3])+100);
+                Coordinate c2 = new Coordinate(Integer.parseInt(row[4])+100, Integer.parseInt(row[5])+100);
 
                 Street street = new Street(row[0], row[1], c1, c2);
 
@@ -80,16 +83,15 @@ public class ReadCSV {
                 Line link = new Line(row[0]);
                 link.setReps(row[1]);
                 int cntStop = 0;
-//                link.stoptime.add(new ArrayList<String>());
-                List<List<String>> entire = new ArrayList<List<String>>();
+                List<List<String>> entire = new ArrayList<>();
 
                 int cnt = 0;
                 for(int i = 2; i < row.length; ++i){
-                    String separate[] = row[i].split("/");
+                    String[] separate = row[i].split("/");
                     if(separate.length != 2){
                         System.exit(56);
                     }
-                    entire.add(new ArrayList<String>());
+                    entire.add(new ArrayList<>());
                     entire.get(cnt).add(separate[0]);
                     if(!streets.containsKey(separate[0])){
                         System.exit(56);
@@ -130,9 +132,9 @@ public class ReadCSV {
                 }
 
                 int iter = 0;
-                this.mapBusHash.put(row[0], new HashMap<String, Bus>());
+                this.mapBusHash.put(row[0], new HashMap<>());
                 while(iter < lines.get(row[0]).reps){
-                    List<String> times = new ArrayList<String>();
+                    List<String> times = new ArrayList<>();
                     List<List<String>> test = lines.get(row[0]).getStopInfo(row[0]);
 
                     times.add(getTimeDiff(test.get(0).get(1), lines.get(row[0]).reps, iter));
@@ -157,7 +159,7 @@ public class ReadCSV {
                     }
                     int cnt = 0;
                     for(int i = 0; i < lines.get(row[0]).stoptime.size(); ++i){
-                        bus.plannedStops.add(new ArrayList<String>());
+                        bus.plannedStops.add(new ArrayList<>());
 
                         if(i < lines.get(row[0]).stoptime.size() - 1){
                             bus.plannedStops.get(cnt).add(lines.get(row[0]).stoptime.get(i).get(0));
@@ -202,8 +204,8 @@ public class ReadCSV {
             System.exit( 50 );
         }
         int minutes = Integer.parseInt(time.substring(0,2));
-        int another_departure = (int) 60/reps;
-        String departure = String.valueOf(another_departure * iter + minutes) + ":"+ time.substring(time.length() - 2);
+        int another_departure = 60 /reps;
+        String departure = (another_departure * iter + minutes) + ":"+ time.substring(time.length() - 2);
         if( departure.length() == 4 ){
             departure = "0" + departure;
         }
