@@ -19,6 +19,9 @@ public class Street implements Drawable {
     Stop stop = null;
     List<Coordinate> coords = new ArrayList<Coordinate>();
     public int color;   //1-green, 2-orange, 3-red
+    private Color green = Color.rgb(99, 214, 104);
+    private Color orange = Color.rgb(255,151,77);
+    private Color red = Color.rgb(242,60,50);
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
@@ -27,13 +30,21 @@ public class Street implements Drawable {
         coords.add(c1);
         street = new Line(c0.getX(), c0.getY(), c1.getX(), c1.getY());
         street.setStrokeWidth(1.5);
-        street.setStroke(Color.GREEN);
+        street.setStroke(green);
 
         street.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event){
-                if(street.getStroke() == Color.GREEN)
-                    street.setStroke(Color.RED);
+                if(street.getStroke() == green) {
+                    street.setStroke(orange);
+                    color = 2;
+                } else if(street.getStroke() == orange) {
+                    street.setStroke(red);
+                    color = 3;
+                } else if(street.getStroke() == red) {
+                    street.setStroke(green);
+                    color = 1;
+                }
             }
         });
     }

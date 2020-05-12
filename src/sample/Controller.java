@@ -33,7 +33,7 @@ public class Controller {
     private List<Drawable> elements = new ArrayList<>();
     private List<Time> updates = new ArrayList<>();
     private Timer timer;
-    private LocalTime time = LocalTime.now();
+    private LocalTime time = LocalTime.of(12, 0, 0);
 
     public void setElements(List<Drawable> elements){
         this.elements = elements;
@@ -46,7 +46,7 @@ public class Controller {
     }
 
     public void startTime(){
-        timer = new Timer(false);
+        timer = new Timer(true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -61,24 +61,22 @@ public class Controller {
 
     @FXML
     private void onZoom(){
-        scene.setScaleX((slider.getValue()/100)+1);
-        scene.setScaleY((slider.getValue()/100)+1);
-//        System.out.println(scene.getScaleX());
-        parentScene.setPrefSize(1250+slider.getValue()*2, 750+slider.getValue()*2);
+        scene.setScaleX((slider.getValue()/10)+1);
+        scene.setScaleY((slider.getValue()/10)+1);
         scene.layout();
     }
 
     @FXML
     private void speedChange(){
-
+        System.out.println("ahpj");
     }
 
     @FXML
     private void onClickReset(){
-        parentScene.setPrefSize(1250, 750);
         scene.setScaleX(1);
         scene.setScaleY(1);
         slider.setValue(0);
+        speeder.setValue(0);
     }
 
 }

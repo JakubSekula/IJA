@@ -10,14 +10,14 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
                   <TextField fx:id="timeText" editable="false" prefHeight="26.0" prefWidth="85.0" />
-                  <ScrollBar fx:id="speeder" onMouseDragged="#speedChange" />
+                  <ScrollBar fx:id="speeder" onScroll="#speedChange" onSwipeLeft="#speedChange" onSwipeRight="#speedChange" />
                   <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
                   <ToggleButton mnemonicParsing="false" text="Zmena cesty" />
               </items>
             </ToolBar>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane pannable="true" prefHeight="200.0" prefWidth="200.0">
               <content>
-                <AnchorPane fx:id="parentScene" minHeight="0.0" minWidth="0.0" prefHeight="750.0" prefWidth="1250.0">
+                <AnchorPane fx:id="parentScene" minHeight="0.0" minWidth="0.0" prefHeight="4000.0" prefWidth="4000.0">
                      <children>
                         <Slider fx:id="slider" layoutX="1215.0" layoutY="19.0" onMouseDragged="#onZoom" orientation="VERTICAL" prefHeight="516.0" prefWidth="14.0" />
                         <AnchorPane fx:id="scene" layoutY="40.0" />
