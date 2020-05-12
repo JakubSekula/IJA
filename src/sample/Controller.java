@@ -18,6 +18,8 @@ import java.util.TimerTask;
 
 public class Controller {
 
+    public int timerTime = 0;
+
     @FXML
     private Pane scene;
     @FXML
@@ -34,7 +36,7 @@ public class Controller {
     private List<Drawable> elements = new ArrayList<>();
     private List<Time> updates = new ArrayList<>();
     private Timer timer;
-    private LocalTime time = LocalTime.of(12, 0, 0);
+    private LocalTime time = LocalTime.of(12, 00, 00);
     long period = 1000;
 
     public void setElements(List<Drawable> elements){
@@ -57,6 +59,7 @@ public class Controller {
                     @Override
                     public void run() {
                         time = time.plusSeconds(1);
+                        timerTime++;
                         String timeToWrite = time.toString();
                         if(timeToWrite.length() > 8) timeToWrite = timeToWrite.substring(0,8);
                         timeText.setText(timeToWrite);

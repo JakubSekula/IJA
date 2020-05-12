@@ -35,6 +35,16 @@ public class Bus implements Drawable, Time{
     boolean changeDir = true;
     boolean useRest = false;
     boolean atEnd = false;
+    int timerTime = 0;
+    boolean stationary = true;
+    boolean round = false;
+
+    private void changeTimer(){
+        timerTime++;
+        if( timerTime == 3600 ){
+            timerTime = 0;
+        }
+    }
 
     private void shouldStop(){
         if( current.getStop() != null ){
@@ -83,7 +93,7 @@ public class Bus implements Drawable, Time{
     }
 
     private void countStep(){
-        step = toStop / ( int ) toStop;
+        step = toStop / ( timeToNextStop() - 3 );
         recountStep = false;
     }
 
@@ -126,7 +136,6 @@ public class Bus implements Drawable, Time{
         float stepY = 0;
 
         if( useRest ){
-            System.out.println( "Using" );
             step = step + rest;
             recountStep = true;
             useRest = false;
@@ -153,6 +162,8 @@ public class Bus implements Drawable, Time{
                     if( travelledDistance + step >= hypotenuse ){
                         this.posX = current.getMiddle().getX();
                         this.posY = current.getMiddle().getY();
+                        stationary = true;
+                        round = true;
                         setNull();
                         return;
                     }
@@ -166,6 +177,7 @@ public class Bus implements Drawable, Time{
                         return;
                     }
                     now++;
+                    stationary = true;
                     stopped = true;
                     changeDir = false;
                     countDistance = true;
@@ -195,13 +207,68 @@ public class Bus implements Drawable, Time{
 
     }
 
+    private int timeToNextStop(){
+        int correction = 0;
+        if( now == -1 ){
+            correction = 1;
+        }
+        int time1 = countDeparture( plannedStops.get( now + correction ).get( 1 ) );
+        int time2 = countDeparture( plannedStops.get( now + 1 + correction ).get( 1 ) );
+        if( time1 > time2 ){
+            int over = 3600 - time1;
+            return over + time2;
+        }
+        return time2 - time1;
+    }
+
+    private int countDeparture( String time ){
+
+        if( time.length() != 5 ){
+            System.out.println( time );
+            exit(20);
+        }
+
+        String[] parts = time.split( ":" );
+
+        if( parts.length != 2 ){
+            exit( 20 );
+        }
+
+        int minutes = Integer.parseInt( parts[ 0 ] );
+        minutes = 60 * minutes;
+        int sec = Integer.parseInt( parts[ 1 ] );
+
+        minutes = minutes + sec;
+
+        return minutes;
+    }
+
     private void nextPos(){
+        if( now != plannedStops.size() - 1 ) {
+            int correction = 0;
+            if( now == -1 ) {
+                correction = 1;
+            }
+
+            if( timerTime == countDeparture( plannedStops.get( 0 ).get( 1 ) ) ){
+                round = false;
+            }
+
+            if ( round == true || countDeparture(plannedStops.get(now + correction).get(1)) > timerTime && stationary ) {
+                return;
+            } else {
+                stationary = false;
+            }
+
+        }
+
         if( currenti == route.size() - 1 ){
             currenti = 0;
             current = route.get( currenti );
             atEnd = true;
             now = -1;
         }
+
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
                 countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
@@ -218,8 +285,6 @@ public class Bus implements Drawable, Time{
         bus.setTranslateX( posX );
         bus.setTranslateY( posY );
 
-        System.out.println( travelledDistance );
-
     }
 
     @Override
@@ -229,6 +294,7 @@ public class Bus implements Drawable, Time{
 
     @Override
     public void update(LocalTime time) {
+        changeTimer();
         nextPos();
     }
 
@@ -250,7 +316,7 @@ public class Bus implements Drawable, Time{
         posX = route.get( 0 ).getMiddle().getX();
         posY = route.get( 0 ).getMiddle().getY();
 
-        bus = new Circle( 0, 0, 1, Color.RED );
+        bus = new Circle( 0, 0, 3, Color.RED );
 
         // -1 protoze zastavka na konci je stejna jako na zacatku kvuli dojeti na zastavku
         for( int i = currentStops; i < stopsOnRoute.size() - 1; i++ ){
