@@ -22,6 +22,7 @@ public class Street implements Drawable {
     private Color green = Color.rgb(99, 214, 104);
     private Color orange = Color.rgb(255,151,77);
     private Color red = Color.rgb(242,60,50);
+    public boolean changeable = true;
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
