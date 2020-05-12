@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,7 +11,7 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
                   <TextField fx:id="timeText" editable="false" prefHeight="26.0" prefWidth="85.0" />
-                  <ScrollBar fx:id="speeder" onScroll="#speedChange" onSwipeLeft="#speedChange" onSwipeRight="#speedChange" />
+                  <Slider fx:id="speeder" max="999.0" onMouseDragged="#speedChange" prefHeight="14.0" prefWidth="86.0" />
                   <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
                   <ToggleButton mnemonicParsing="false" text="Zmena cesty" />
               </items>
@@ -19,10 +20,12 @@
               <content>
                 <AnchorPane fx:id="parentScene" minHeight="0.0" minWidth="0.0" prefHeight="4000.0" prefWidth="4000.0">
                      <children>
-                        <Slider fx:id="slider" layoutX="1215.0" layoutY="19.0" onMouseDragged="#onZoom" orientation="VERTICAL" prefHeight="516.0" prefWidth="14.0" />
                         <AnchorPane fx:id="scene" layoutY="40.0" />
                      </children></AnchorPane>
               </content>
+               <rotationAxis>
+                  <Point3D x="1.0" y="1.0" z="1.0" />
+               </rotationAxis>
             </ScrollPane>
           <AnchorPane fx:id="scene2" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
         </items>

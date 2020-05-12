@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
@@ -26,7 +27,7 @@ public class Controller {
     @FXML
     private Pane parentScene;
     @FXML
-    private ScrollBar speeder;
+    private Slider speeder;
     @FXML
     private TextField timeText;
 
@@ -34,6 +35,7 @@ public class Controller {
     private List<Time> updates = new ArrayList<>();
     private Timer timer;
     private LocalTime time = LocalTime.of(12, 0, 0);
+    long period = 1000;
 
     public void setElements(List<Drawable> elements){
         this.elements = elements;
@@ -46,19 +48,25 @@ public class Controller {
     }
 
     public void startTime(){
+        if(timer != null) timer.cancel();
         timer = new Timer(true);
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                time = time.plusSeconds(1);
-                String timeToWrite = time.toString();
-                if(timeToWrite.length() > 8) timeToWrite = timeToWrite.substring(0,8);
-                timeText.setText(timeToWrite);
-                for(Time update : updates){
-                    update.update(time);
-                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        time = time.plusSeconds(1);
+                        String timeToWrite = time.toString();
+                        if(timeToWrite.length() > 8) timeToWrite = timeToWrite.substring(0,8);
+                        timeText.setText(timeToWrite);
+                        for(Time update : updates){
+                            update.update(time);
+                        }
+                    }
+                });
             }
-        }, 0, 1000);
+        }, 0, period);
     }
 
     @FXML
@@ -70,7 +78,8 @@ public class Controller {
 
     @FXML
     private void speedChange(){
-        System.out.println("ahpj");
+        period = (long) (1000 - speeder.getValue());
+        this.startTime();
     }
 
     @FXML
