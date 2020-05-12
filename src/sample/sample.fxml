@@ -9,7 +9,7 @@
         <items>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
               <items>
-                  <Spinner prefHeight="6.0" prefWidth="129.0" />
+                  <TextField fx:id="timeText" editable="false" prefHeight="26.0" prefWidth="85.0" />
                   <ScrollBar fx:id="speeder" onMouseDragged="#speedChange" />
                   <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onClickReset" text="Reset" />
                   <ToggleButton mnemonicParsing="false" text="Zmena cesty" />

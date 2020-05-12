@@ -1,15 +1,14 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,8 @@ public class Controller {
     private Pane parentScene;
     @FXML
     private ScrollBar speeder;
+    @FXML
+    private TextField timeText;
 
     private List<Drawable> elements = new ArrayList<>();
     private List<Time> updates = new ArrayList<>();
@@ -50,6 +51,7 @@ public class Controller {
             @Override
             public void run() {
                 time = time.plusSeconds(1);
+                timeText.setText(time.toString().substring(0,8));
                 for(Time update : updates){
                     update.update(time);
                 }

@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -14,13 +17,25 @@ public class Street implements Drawable {
     Coordinate middle;
     Stop stop;
     List<Coordinate> coords = new ArrayList<Coordinate>();
+    public int color;   //1-green, 2-orange, 3-red
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
         this.name = name;
         coords.add(c0);
         coords.add(c1);
+
         street = new Line(c0.getX(), c0.getY(), c1.getX(), c1.getY());
+        street.setStrokeWidth(1.5);
+        street.setStroke(Color.GREEN);
+
+        street.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event){
+                if(street.getStroke() == Color.GREEN)
+                    street.setStroke(Color.RED);
+            }
+        });
     }
 
     public String getId(){

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReadCSV {
-    HashMap<String, Street> mapHash = new HashMap<>();
-    HashMap<String, Stop> mapStopsHash = new HashMap<>();
-    HashMap<String, Line> mapLineHash = new HashMap<>();
-    HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<>();
-    HashMap<String, Bus> busHash = new HashMap<>();
+    private HashMap<String, Street> mapHash = new HashMap<>();
+    private HashMap<String, Stop> mapStopsHash = new HashMap<>();
+    private HashMap<String, Line> mapLineHash = new HashMap<>();
+    private HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<>();
+    private HashMap<String, Bus> busHash = new HashMap<>();
 
 //    HashMap<String, Bus> busHash = new HashMap<String, Street>();
 //    HashMap<String, Line> lineHash = new HashMap<String, Street>();
