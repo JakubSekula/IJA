@@ -68,6 +68,9 @@ public class Controller {
                         timerTime++;
                         String timeToWrite = time.toString();
                         if(timeToWrite.length() > 8) timeToWrite = timeToWrite.substring(0,8);
+                        if( timeToWrite.length() == 5 ){
+                            timeToWrite = timeToWrite + ":00";
+                        }
                         timeText.setText(timeToWrite);
                         for(Time update : updates){
                             update.update(time);
