@@ -28,6 +28,23 @@ public class Bus implements Drawable, Time{
     float step;
     boolean countDistance = true;
     float travelledDistance = 0;
+    boolean hasStop = true;
+    float rest = 0;
+
+    private void shouldStop(){
+        if( current.getStop() != null ){
+            if( current.getStop().getId().equals( plannedStops.get( now ).get( 0 ) ) ){
+                hasStop = true;
+            }
+        } else {
+            hasStop = false;
+        }
+    }
+
+    private void switchStreet(){
+        currenti++;
+        current = route.get( currenti );
+    }
 
     private void distanceBetweenStops(){
         float distance = 0;
@@ -48,6 +65,11 @@ public class Bus implements Drawable, Time{
         toStop = distance;
     }
 
+    private void changePos( float XDiff, float YDiff, float hypotenuse ){
+        this.posX = posX + ( XDiff / hypotenuse / step );
+        this.posY = posY + ( YDiff / hypotenuse / step );
+    }
+
     private void countStep(){
         step = toStop / ( int ) toStop;
     }
@@ -60,31 +82,26 @@ public class Bus implements Drawable, Time{
             countDistance = false;
         }
 
+        shouldStop();
+
         float XDiff = Math.abs( sx - ex );
         float YDiff = Math.abs( sy - ey );
 
         float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
 
-        if( currenti == 0 ){
-            hypotenuse = hypotenuse / 2;
-        }
 
-        hypotenuse = hypotenuse / step;
-
-        this.posX = posX + ( XDiff / hypotenuse );
-        this.posY = posY + ( YDiff / hypotenuse );
 
     }
 
     private void nextPos(){
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
-                countAdditions( current.getStreetStart().getX(), current.getStreetStart().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
+                countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
             } else {
-                countAdditions( current.getStreetEnd().getX(), current.getStreetEnd().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
+                countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
             }
         } else {
-
+            System.out.println( "HERE" );
         }
 
         bus.setTranslateX( posX );
