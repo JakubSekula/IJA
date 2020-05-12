@@ -32,12 +32,15 @@ public class Controller {
     private Slider speeder;
     @FXML
     private TextField timeText;
+    @FXML
+    private ScrollPane scroll;
 
     private List<Drawable> elements = new ArrayList<>();
     private List<Time> updates = new ArrayList<>();
     private Timer timer;
     private LocalTime time = LocalTime.of(12, 00, 00);
     long period = 1000;
+
 
     public void setElements(List<Drawable> elements){
         this.elements = elements;
@@ -76,6 +79,8 @@ public class Controller {
     private void onZoom(){
         scene.setScaleX((slider.getValue()/10)+1);
         scene.setScaleY((slider.getValue()/10)+1);
+        scroll.setHvalue(0.1+slider.getValue()/120);
+        scroll.setVvalue(0.1+slider.getValue()/120);
         scene.layout();
     }
 
