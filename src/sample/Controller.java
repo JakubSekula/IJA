@@ -51,6 +51,7 @@ public class Controller {
             @Override
             public void run() {
                 time = time.plusSeconds(1);
+                System.out.println( time );
                 timeText.setText(time.toString().substring(0,8));
                 for(Time update : updates){
                     update.update(time);

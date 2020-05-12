@@ -147,7 +147,7 @@ public class Bus implements Drawable, Time{
                 changePos(-1 * stepX, -1 * stepY);
             }
         } else {
-            changeDir = false;
+            changeDir = true;
         }
 
     }
@@ -166,7 +166,6 @@ public class Bus implements Drawable, Time{
                 countAdditions( current.getStreetEnd().getX(), current.getStreetEnd().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
             }
         }
-
         bus.setTranslateX( posX );
         bus.setTranslateY( posY );
     }
