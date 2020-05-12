@@ -79,7 +79,6 @@ public class Controller {
     @FXML
     private void speedChange(){
         period = (long) (1000 - speeder.getValue());
-        System.out.println(speeder.getValue());
         this.startTime();
     }
 
