@@ -61,8 +61,8 @@ public class Controller {
 
     @FXML
     private void onZoom(){
-        scene.setScaleX((slider.getValue()/50)+1);
-        scene.setScaleY((slider.getValue()/50)+1);
+        scene.setScaleX((slider.getValue()/100)+1);
+        scene.setScaleY((slider.getValue()/100)+1);
 //        System.out.println(scene.getScaleX());
         parentScene.setPrefSize(1250+slider.getValue()*2, 750+slider.getValue()*2);
         scene.layout();
