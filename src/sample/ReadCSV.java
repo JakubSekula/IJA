@@ -161,7 +161,7 @@ public class ReadCSV {
                     for(int i = 0; i < lines.get(row[0]).stoptime.size(); ++i){
                         bus.plannedStops.add(new ArrayList<>());
 
-                        if(i < lines.get(row[0]).stoptime.size() - 1){
+                        if(i < lines.get(row[0]).stoptime.size()){
                             bus.plannedStops.get(cnt).add(lines.get(row[0]).stoptime.get(i).get(0));
                             bus.plannedStops.get(cnt).add(getTimeDiff(lines.get(row[0]).stoptime.get(i).get(1), lines.get(row[0]).reps, iter));
                         }
@@ -175,7 +175,21 @@ public class ReadCSV {
                     List<String> addLast = new ArrayList<>();
 
                     addLast.add( 0, bus.plannedStops.get( bus.plannedStops.size() - 1 ).get( 0 ) );
-                    addLast.add( 1, "99:99" );
+                    String time = bus.plannedStops.get( bus.plannedStops.size() - 1 ).get( 1 );
+
+                    String[] parse = time.split( ":" );
+                    int minutes = Integer.parseInt( parse[ 0 ] );
+                    minutes = minutes + 2;
+
+                    String realtime = String.valueOf( minutes );
+
+                    if( realtime.length() == 1 ){
+                        realtime = "0" + realtime + ":00";
+                    } else {
+                        realtime = realtime + ":00";
+                    }
+
+                    addLast.add( 1, realtime );
 
                     bus.plannedStops.add( addLast );
 
