@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import java.time.LocalTime;
@@ -31,10 +32,12 @@ public class Bus implements Drawable, Time{
     float travelledDistance = 0;
     boolean hasStop = true;
     float rest = 0;
+    boolean stopped = false;
+    boolean changeDir = true;
 
     private void shouldStop(){
         if( current.getStop() != null ){
-            if( current.getStop().getId().equals( plannedStops.get( now ).get( 0 ) ) ){
+            if( current.getStop().getId().equals( plannedStops.get( now + 1 ).get( 0 ) ) ){
                 hasStop = true;
             }
         } else {
@@ -46,6 +49,7 @@ public class Bus implements Drawable, Time{
         currenti++;
         current = route.get( currenti );
         travelledDistance  = 0;
+        stopped = false;
     }
 
     private void distanceBetweenStops(){
@@ -113,20 +117,37 @@ public class Bus implements Drawable, Time{
                 stepX =  XDiff / ( hypotenuse / ( step ) );
                 stepY =  YDiff / ( hypotenuse / ( step ) );
 
+            } else {
+                if( travelledDistance + step > hypotenuse / 2 &&  stopped == false ){
+                    travelledDistance = hypotenuse / 2;
+                    this.posX = current.getMiddle().getX();
+                    this.posY = current.getMiddle().getY();
+                    now++;
+                    stopped = true;
+                    changeDir = false;
+                    countDistance = true;
+                } else {
+                    stepX = XDiff / ( hypotenuse / ( step ) );
+                    stepY = YDiff / ( hypotenuse / ( step ) );
+                }
             }
         } else {
             stepX =  XDiff / ( hypotenuse / ( step ) );
             stepY =  YDiff / ( hypotenuse / ( step ) );
         }
 
-        if( sx < ex && sy < ey ) {
-            changePos(stepX, stepY);
-        } else if ( sx < ex && sy > ey ){
-            changePos( stepX, -1 * stepY );
-        } else if ( sx > ex && sy < ey ){
-            changePos( -1 * stepX, stepY );
+        if( changeDir ) {
+            if (sx < ex && sy < ey) {
+                changePos(stepX, stepY);
+            } else if (sx < ex && sy > ey) {
+                changePos(stepX, -1 * stepY);
+            } else if (sx > ex && sy < ey) {
+                changePos(-1 * stepX, stepY);
+            } else {
+                changePos(-1 * stepX, -1 * stepY);
+            }
         } else {
-            changePos( -1 * stepX, -1 * stepY );
+            changeDir = false;
         }
 
     }
@@ -178,7 +199,7 @@ public class Bus implements Drawable, Time{
         posX = route.get( 0 ).getMiddle().getX();
         posY = route.get( 0 ).getMiddle().getY();
 
-        bus = new Circle( 0, 0, 5, Color.RED );
+        bus = new Circle( 0, 0, 4, Color.RED );
 
         // -1 protoze zastavka na konci je stejna jako na zacatku kvuli dojeti na zastavku
         for( int i = currentStops; i < stopsOnRoute.size() - 1; i++ ){

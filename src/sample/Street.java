@@ -29,6 +29,8 @@ public class Street implements Drawable {
         street.setStrokeWidth(1.5);
         street.setStroke(Color.GREEN);
 
+        countStreetLength();
+
         street.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event){
