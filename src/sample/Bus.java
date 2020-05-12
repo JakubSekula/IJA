@@ -36,6 +36,7 @@ public class Bus implements Drawable, Time{
     boolean useRest = false;
     boolean atEnd = false;
     int timerTime = 0;
+    int Delay = 0;
     boolean getDelay = true;
     boolean stationary = true;
     boolean round = false;
@@ -255,8 +256,8 @@ public class Bus implements Drawable, Time{
             if( timerTime == countDeparture( plannedStops.get( 0 ).get( 1 ) ) ){
                 round = false;
             }
-
-            if ( round == true || countDeparture(plannedStops.get(now + correction).get(1)) > timerTime && stationary ) {
+            System.out.println( Delay );
+            if ( round == true || countDeparture(plannedStops.get(now + correction).get(1)) + Delay > timerTime && stationary ) {
                 return;
             } else {
                 stationary = false;
@@ -272,10 +273,18 @@ public class Bus implements Drawable, Time{
         }
 
         if( getDelay ){
+            if( current.color == 3 ){
+                Delay = Delay + 15;
+            } else if( current.color == 2 ){
+                Delay = Delay + 5;
+            } else {
+                Delay = Delay + 0;
+            }
             current.changeable = false;
-            System.out.println( current.color );
             getDelay = false;
         }
+
+        System.out.println( Delay );
 
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
