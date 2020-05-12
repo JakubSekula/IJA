@@ -26,8 +26,27 @@ public class Bus implements Drawable, Time{
     int now = 0;
     int currenti = 0;
     float step;
+    boolean recountStep = false;
     boolean countDistance = true;
     float travelledDistance = 0;
+    boolean hasStop = true;
+    float rest = 0;
+
+    private void shouldStop(){
+        if( current.getStop() != null ){
+            if( current.getStop().getId().equals( plannedStops.get( now ).get( 0 ) ) ){
+                hasStop = true;
+            }
+        } else {
+            hasStop = false;
+        }
+    }
+
+    private void switchStreet(){
+        currenti++;
+        current = route.get( currenti );
+        travelledDistance  = 0;
+    }
 
     private void distanceBetweenStops(){
         float distance = 0;
@@ -48,8 +67,15 @@ public class Bus implements Drawable, Time{
         toStop = distance;
     }
 
+    private void changePos( float stepX, float stepY ){
+        this.posX = this.posX + stepX;
+        this.posY = this.posY + stepY;
+        travelledDistance = travelledDistance + step;
+    }
+
     private void countStep(){
         step = toStop / ( int ) toStop;
+        recountStep = false;
     }
 
     private void countAdditions( float sx, float sy, float ex, float ey ){
@@ -60,31 +86,64 @@ public class Bus implements Drawable, Time{
             countDistance = false;
         }
 
+        if( recountStep ){
+            countStep();
+        }
+
+        shouldStop();
+
         float XDiff = Math.abs( sx - ex );
         float YDiff = Math.abs( sy - ey );
 
         float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
 
-        if( currenti == 0 ){
-            hypotenuse = hypotenuse / 2;
+        if( travelledDistance + step > hypotenuse ){
+            rest = step;
+            step = hypotenuse - travelledDistance;
+            rest = rest - step;
+            recountStep = true;
+            switchStreet();
         }
 
-        hypotenuse = hypotenuse / step;
+        float stepX = 0;
+        float stepY = 0;
 
-        this.posX = posX + ( XDiff / hypotenuse );
-        this.posY = posY + ( YDiff / hypotenuse );
+        if( hasStop ){
+            if( currenti == 0 ){
+                stepX =  XDiff / ( hypotenuse / ( step ) );
+                stepY =  YDiff / ( hypotenuse / ( step ) );
+
+            }
+        } else {
+            stepX =  XDiff / ( hypotenuse / ( step ) );
+            stepY =  YDiff / ( hypotenuse / ( step ) );
+        }
+
+        if( sx < ex && sy < ey ) {
+            changePos(stepX, stepY);
+        } else if ( sx < ex && sy > ey ){
+            changePos( stepX, -1 * stepY );
+        } else if ( sx > ex && sy < ey ){
+            changePos( -1 * stepX, stepY );
+        } else {
+            changePos( -1 * stepX, -1 * stepY );
+        }
 
     }
 
     private void nextPos(){
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
+                countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
+            } else {
+                countAdditions( current.getMiddle().getX(), current.getMiddle().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
+            }
+        } else {
+            if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
                 countAdditions( current.getStreetStart().getX(), current.getStreetStart().getY(), current.getStreetEnd().getX(), current.getStreetEnd().getY() );
             } else {
                 countAdditions( current.getStreetEnd().getX(), current.getStreetEnd().getY(), current.getStreetStart().getX(), current.getStreetStart().getY() );
             }
-        } else {
-
         }
 
         bus.setTranslateX( posX );
