@@ -1,6 +1,4 @@
 package sample;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -22,16 +20,6 @@ public class Street implements Drawable {
     List<Coordinate> coords = new ArrayList<Coordinate>();
     public int color;   //1-green, 2-orange, 3-red
 
-    private void countStreetLength(){
-        float XDiff = Math.abs( coords.get( 0 ).getX() - coords.get( 1 ).getX() );
-        float YDiff = Math.abs( coords.get( 0 ).getY() - coords.get( 1 ).getY() );
-
-        float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
-
-        streetLength = hypotenuse;
-
-    }
-
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
         this.name = name;
@@ -48,6 +36,16 @@ public class Street implements Drawable {
                     street.setStroke(Color.RED);
             }
         });
+    }
+
+    private void countStreetLength(){
+        float XDiff = Math.abs( coords.get( 0 ).getX() - coords.get( 1 ).getX() );
+        float YDiff = Math.abs( coords.get( 0 ).getY() - coords.get( 1 ).getY() );
+
+        float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
+
+        streetLength = hypotenuse;
+
     }
 
     public String getId(){
