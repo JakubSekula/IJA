@@ -172,6 +172,13 @@ public class ReadCSV {
                         cnt++;
                     }
 
+                    List<String> addLast = new ArrayList<>();
+
+                    addLast.add( 0, bus.plannedStops.get( bus.plannedStops.size() - 1 ).get( 0 ) );
+                    addLast.add( 1, "99:99" );
+
+                    bus.plannedStops.add( addLast );
+
                     int realstart;
 
                     realstart = lines.get(row[0]).reps + lines.get(row[0]).reps * iter;
