@@ -38,15 +38,17 @@ public class Street implements Drawable {
         street.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event){
-                if(street.getStroke() == green) {
-                    street.setStroke(orange);
-                    color = 2;
-                } else if(street.getStroke() == orange) {
-                    street.setStroke(red);
-                    color = 3;
-                } else if(street.getStroke() == red) {
-                    street.setStroke(green);
-                    color = 1;
+                if( changeable ) {
+                    if (street.getStroke() == green) {
+                        street.setStroke(orange);
+                        color = 2;
+                    } else if (street.getStroke() == orange) {
+                        street.setStroke(red);
+                        color = 3;
+                    } else if (street.getStroke() == red) {
+                        street.setStroke(green);
+                        color = 1;
+                    }
                 }
             }
         });

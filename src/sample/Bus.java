@@ -58,6 +58,7 @@ public class Bus implements Drawable, Time{
     }
 
     private void switchStreet(){
+        current.changeable = true;
         if( currenti == route.size() - 1 ){
             currenti = -1;
             now = 0;
@@ -271,7 +272,7 @@ public class Bus implements Drawable, Time{
         }
 
         if( getDelay ){
-            current
+            current.changeable = false;
             System.out.println( current.color );
             getDelay = false;
         }
