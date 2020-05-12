@@ -6,9 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class Main extends Application {
 
@@ -41,6 +39,14 @@ public class Main extends Application {
         Controller controller = loader.getController();
         controller.setElements(new ArrayList(mapHash.values()));
         controller.setElements(new ArrayList(stopsHash.values()));
+
+        Set<String> test = busses.keySet();
+
+        for(String key : test){
+            controller.setElements( new ArrayList( busses.get(key).values() ) );
+        }
+        controller.startTime();
+
     }
 
 

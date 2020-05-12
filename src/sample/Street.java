@@ -1,4 +1,6 @@
 package sample;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -15,16 +17,26 @@ public class Street implements Drawable {
     private Shape street;
     String id, name;
     Coordinate middle;
-    Stop stop;
+    float streetLength = 0;
+    Stop stop = null;
     List<Coordinate> coords = new ArrayList<Coordinate>();
     public int color;   //1-green, 2-orange, 3-red
+
+    private void countStreetLength(){
+        float XDiff = Math.abs( coords.get( 0 ).getX() - coords.get( 1 ).getX() );
+        float YDiff = Math.abs( coords.get( 0 ).getY() - coords.get( 1 ).getY() );
+
+        float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
+
+        streetLength = hypotenuse;
+
+    }
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
         this.name = name;
         coords.add(c0);
         coords.add(c1);
-
         street = new Line(c0.getX(), c0.getY(), c1.getX(), c1.getY());
         street.setStrokeWidth(1.5);
         street.setStroke(Color.GREEN);
@@ -51,7 +63,11 @@ public class Street implements Drawable {
     }
 
     Stop getStop(){
-        return stop;
+        if( this.stop != null ){
+            return stop;
+        } else {
+            return null;
+        }
     }
 
     public boolean addStop(Stop stop){
@@ -149,6 +165,16 @@ public class Street implements Drawable {
         }
     }
 
+    public boolean Direction( Street s2 ){
+        if( ( ( this.getStreetStart().getX() == s2.getStreetStart().getX() ) && ( this.getStreetStart().getY() == s2.getStreetStart().getY() ) ) ||
+            ( ( this.getStreetStart().getX() == s2.getStreetEnd().getX() ) && ( this.getStreetStart().getY() == s2.getStreetEnd().getY() ) ) ){
+            // ma se poslat start, konec
+            return true;
+        } else {
+            // ma se poslat konec, start
+            return false;
+        }
+    }
 
     @Override
     public Shape getGUI() {
