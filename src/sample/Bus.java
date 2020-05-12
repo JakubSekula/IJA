@@ -101,7 +101,11 @@ public class Bus implements Drawable, Time{
 
         float hypotenuse = ( float ) Math.sqrt( Math.pow( XDiff, 2 ) + Math.pow( YDiff, 2 ));
 
-        if( travelledDistance + step > hypotenuse ){
+        float stepX = 0;
+        float stepY = 0;
+
+        step = 3;
+        if (travelledDistance + step > hypotenuse) {
             rest = step;
             step = hypotenuse - travelledDistance;
             rest = rest - step;
@@ -109,8 +113,8 @@ public class Bus implements Drawable, Time{
             switchStreet();
         }
 
-        float stepX = 0;
-        float stepY = 0;
+        System.out.println( step );
+        System.out.println( hypotenuse );
 
         if( hasStop ){
             if( currenti == 0 ){
@@ -127,13 +131,15 @@ public class Bus implements Drawable, Time{
                     changeDir = false;
                     countDistance = true;
                 } else {
-                    stepX = XDiff / ( hypotenuse / ( step ) );
-                    stepY = YDiff / ( hypotenuse / ( step ) );
+                    stepX = XDiff / (hypotenuse / ( step + rest ) );
+                    stepY = YDiff / (hypotenuse / ( step + rest ) );
+                    rest = 0;
                 }
             }
         } else {
-            stepX =  XDiff / ( hypotenuse / ( step ) );
-            stepY =  YDiff / ( hypotenuse / ( step ) );
+            stepX =  XDiff / ( hypotenuse / ( step + rest ) );
+            stepY =  YDiff / ( hypotenuse / ( step + rest ) );
+            rest = 0;
         }
 
         if( changeDir ) {
