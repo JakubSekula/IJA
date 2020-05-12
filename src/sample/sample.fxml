@@ -16,7 +16,7 @@
                   <ToggleButton mnemonicParsing="false" text="Zmena cesty" />
               </items>
             </ToolBar>
-            <ScrollPane pannable="true" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fx:id="scroll" hvalue="0.1" pannable="true" prefHeight="200.0" prefWidth="200.0" vvalue="0.1">
               <content>
                 <AnchorPane fx:id="parentScene" minHeight="0.0" minWidth="0.0" prefHeight="4000.0" prefWidth="4000.0">
                      <children>

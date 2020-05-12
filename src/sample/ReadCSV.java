@@ -41,8 +41,8 @@ public class ReadCSV {
                 String line = reader.nextLine();
                 String[] row = line.split(",");
 
-                Coordinate c1 = new Coordinate(Integer.parseInt(row[2])+100, Integer.parseInt(row[3])+100);
-                Coordinate c2 = new Coordinate(Integer.parseInt(row[4])+100, Integer.parseInt(row[5])+100);
+                Coordinate c1 = new Coordinate(Integer.parseInt(row[2])+400, Integer.parseInt(row[3])+400);
+                Coordinate c2 = new Coordinate(Integer.parseInt(row[4])+400, Integer.parseInt(row[5])+400);
 
                 Street street = new Street(row[0], row[1], c1, c2);
 
