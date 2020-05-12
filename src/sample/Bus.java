@@ -104,7 +104,6 @@ public class Bus implements Drawable, Time{
         float stepX = 0;
         float stepY = 0;
 
-        step = 3;
         if (travelledDistance + step > hypotenuse) {
             rest = step;
             step = hypotenuse - travelledDistance;
@@ -131,14 +130,14 @@ public class Bus implements Drawable, Time{
                     changeDir = false;
                     countDistance = true;
                 } else {
-                    stepX = XDiff / (hypotenuse / ( step + rest ) );
-                    stepY = YDiff / (hypotenuse / ( step + rest ) );
+                    stepX = XDiff / (hypotenuse / ( step ) );
+                    stepY = YDiff / (hypotenuse / ( step ) );
                     rest = 0;
                 }
             }
         } else {
-            stepX =  XDiff / ( hypotenuse / ( step + rest ) );
-            stepY =  YDiff / ( hypotenuse / ( step + rest ) );
+            stepX =  XDiff / ( hypotenuse / ( step ) );
+            stepY =  YDiff / ( hypotenuse / ( step ) );
             rest = 0;
         }
 
