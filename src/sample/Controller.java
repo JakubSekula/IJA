@@ -42,7 +42,6 @@ public class Controller {
     private Timer timer;
     private LocalTime time = LocalTime.of(12, 00, 00);
     long period = 1000;
-    public boolean changingLink = false;
 
 
     public void setElements(List<Drawable> elements){
@@ -99,20 +98,22 @@ public class Controller {
         scene.setScaleY(1);
         slider.setValue(0);
         speeder.setValue(0);
+        time = LocalTime.of(12, 00, 00);
         this.speedChange();
         scroll.setHvalue(0.1);
         scroll.setVvalue(0.1);
+        Street.clearAtlernateRoute();
     }
 
     @FXML
     private void onClickChange(){
         if(changeRoute.isSelected()){
             changeRoute.setText("Hotovo");
-            changingLink = true;
+            Street.changingLink = true;
         }
         else{
             changeRoute.setText("Zmena trasy");
-            changingLink = false;
+            Street.changingLink = false;
         }
     }
 

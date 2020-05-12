@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -18,11 +19,17 @@ public class Street implements Drawable {
     float streetLength = 0;
     Stop stop = null;
     List<Coordinate> coords = new ArrayList<Coordinate>();
-    public int color;   //1-green, 2-orange, 3-red
+    public int color = 1;   //1-green, 2-orange, 3-red
+    public boolean changeable = true;
+    public static boolean changingLink = false;
+    public static List<Street> alternateRoute = new ArrayList<>(); //!< Vektor ciest v obchadzke, prva cesta je uzavreta a ostatne su obchadzka
+
+
     private Color green = Color.rgb(99, 214, 104);
     private Color orange = Color.rgb(255,151,77);
     private Color red = Color.rgb(242,60,50);
-    public boolean changeable = true;
+    private  Color blue = Color.rgb(0,170,240);
+    private  Color grey = Color.rgb(170,170,170);
 
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
@@ -38,7 +45,7 @@ public class Street implements Drawable {
         street.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event){
-                if( changeable ) {
+                if(event.getButton() == MouseButton.PRIMARY && changeable ) {
                     if (street.getStroke() == green) {
                         street.setStroke(orange);
                         color = 2;
@@ -50,8 +57,41 @@ public class Street implements Drawable {
                         color = 1;
                     }
                 }
+                else if(changeable){
+                    if(street.getStroke() == blue || (street.getStroke() == grey && alternateRoute.size() == 1)){
+                        setBackColor();
+                    }
+                    else if(street.getStroke() != grey){
+                        closeStreet();
+                    }
+                }
             }
         });
+    }
+
+    public static void clearAtlernateRoute(){
+        while(alternateRoute.size() != 0){
+            alternateRoute.get(0).setBackColor();
+        }
+    }
+
+    private void closeStreet() {
+        if(changingLink){
+            if(alternateRoute.size() == 0){
+                street.setStroke(grey);
+            }
+            else{
+                street.setStroke(blue);
+            }
+            alternateRoute.add(this);
+        }
+    }
+
+    private void setBackColor() {
+        alternateRoute.remove(this);
+        if(this.color == 1) this.street.setStroke(green);
+        else if(this.color == 2) this.street.setStroke(orange);
+        else if(this.color == 3) this.street.setStroke(red);
     }
 
     private void countStreetLength(){
