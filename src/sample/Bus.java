@@ -36,6 +36,7 @@ public class Bus implements Drawable, Time{
     boolean useRest = false;
     boolean atEnd = false;
     int timerTime = 0;
+    int currDelay = 0;
     int Delay = 0;
     boolean getDelay = true;
     boolean stationary = true;
@@ -65,6 +66,7 @@ public class Bus implements Drawable, Time{
             now = 0;
         }
         getDelay = true;
+        currDelay = 0;
         currenti++;
         current = route.get( currenti );
         travelledDistance  = 0;
@@ -97,12 +99,14 @@ public class Bus implements Drawable, Time{
     }
 
     private void countStep(){
-        step = toStop / ( timeToNextStop() - 3 );
+        step = toStop / ( timeToNextStop() - 3 + currDelay );
+        currDelay = 0;
         recountStep = false;
     }
 
     private void setNull(){
         toStop = 0;
+        Delay = 0;
         now = 0;
         currenti = 0;
         step = 0;
@@ -256,7 +260,6 @@ public class Bus implements Drawable, Time{
             if( timerTime == countDeparture( plannedStops.get( 0 ).get( 1 ) ) ){
                 round = false;
             }
-            System.out.println( Delay );
             if ( round == true || countDeparture(plannedStops.get(now + correction).get(1)) + Delay > timerTime && stationary ) {
                 return;
             } else {
@@ -275,16 +278,17 @@ public class Bus implements Drawable, Time{
         if( getDelay ){
             if( current.color == 3 ){
                 Delay = Delay + 15;
+                currDelay = currDelay + 15;
             } else if( current.color == 2 ){
                 Delay = Delay + 5;
+                currDelay = currDelay + 5;
             } else {
+                currDelay = currDelay + 0;
                 Delay = Delay + 0;
             }
             current.changeable = false;
             getDelay = false;
         }
-
-        System.out.println( Delay );
 
         if( currenti == 0 ){
             if( route.get( currenti ).Direction( route.get( currenti + 1 ) ) ){
