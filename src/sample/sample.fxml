@@ -31,4 +31,11 @@
         </items>
       </SplitPane>
    </center>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Slider fx:id="slider" onMouseDragged="#onZoom" orientation="VERTICAL" prefHeight="582.0" prefWidth="14.0" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
