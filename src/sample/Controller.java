@@ -51,7 +51,9 @@ public class Controller {
             @Override
             public void run() {
                 time = time.plusSeconds(1);
-                timeText.setText(time.toString().substring(0,8));
+                String timeToWrite = time.toString();
+                if(timeToWrite.length() > 8) timeToWrite = timeToWrite.substring(0,8);
+                timeText.setText(timeToWrite);
                 for(Time update : updates){
                     update.update(time);
                 }
