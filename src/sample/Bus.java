@@ -63,6 +63,7 @@ public class Bus implements Drawable, Time{
         if( timerTime == 3600 ){
             timerTime = 0;
         }
+
     }
 
     private void shouldStop(){
