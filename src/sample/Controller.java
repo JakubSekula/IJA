@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Projekt: Aplikace zobrazující autobusovou dopravu                          *
+ * Předmet: Seminář Java - FIT VUT v Brně                                     *
+ * Rok:     2019/2020                                                         *
+ * Autoři:                                                                    *
+ *          Jakub Sekula (xsekul01) - xsekul00@stud.fit.vutbr.cz              *
+ *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
+ ******************************************************************************/
+
 package sample;
 
 import javafx.application.Platform;
@@ -6,15 +15,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Controller {
 
@@ -116,6 +121,36 @@ public class Controller {
         scroll.setHvalue(0.1);
         scroll.setVvalue(0.1);
         Street.clearAtlernateRoute();
+        changeRoute.setText("Zmena trasy");
+        Street.changingLink = false;
+        scene2.getChildren().clear();
+        scene.getChildren().clear();
+
+        HashMap<String, Street> phony = new HashMap<>();
+        HashMap<String, sample.Line> phonyl = new HashMap<>();
+
+        ReadCSV map = new ReadCSV("newyork.csv", "Map", phony, phonyl);
+
+        HashMap<String, Street> mapHash = map.getMapHash();
+        HashMap<String, Stop> stopsHash = map.getStopsHash();
+
+
+        ReadCSV lined = new ReadCSV("link.csv", "Line", mapHash, phonyl);
+        HashMap<String, Line> lines = lined.getLineHash();
+
+        ReadCSV bus = new ReadCSV("Bus.csv", "Bus", mapHash, lines);
+        HashMap<String, HashMap<String, Bus>> busses = bus.getBusHash();
+
+        setElements(new ArrayList(mapHash.values()));
+        setElements(new ArrayList(stopsHash.values()));
+
+        Set<String> test = busses.keySet();
+
+        for(String key : test){
+            setElements( new ArrayList( busses.get(key).values() ) );
+        }
+        startTime();
+
     }
 
     @FXML

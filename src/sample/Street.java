@@ -1,6 +1,16 @@
+/******************************************************************************
+ * Projekt: Aplikace zobrazující autobusovou dopravu                          *
+ * Předmet: Seminář Java - FIT VUT v Brně                                     *
+ * Rok:     2019/2020                                                         *
+ * Autoři:                                                                    *
+ *          Jakub Sekula (xsekul01) - xsekul00@stud.fit.vutbr.cz              *
+ *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
+ ******************************************************************************/
+
 package sample;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -69,6 +79,7 @@ public class Street implements Drawable {
         });
     }
 
+    
     public static void clearAtlernateRoute(){
         while(alternateRoute.size() != 0){
             alternateRoute.get(0).setBackColor();
@@ -83,7 +94,24 @@ public class Street implements Drawable {
             else{
                 street.setStroke(blue);
             }
-            alternateRoute.add(this);
+
+            if( alternateRoute.size() > 0){
+                //ak tato ulica navazuje na poslednu pridanu do obchadzky
+                if(alternateRoute.get(alternateRoute.size()-1).equals(this)){
+                    alternateRoute.add(this);
+                }
+                //ulice nenavazuju - chyba
+                else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setContentText("Cesty na sebe nenavazuji!");
+                    alert.showAndWait();
+                }
+            }
+            else{
+                alternateRoute.add(this);
+            }
+
         }
     }
 
