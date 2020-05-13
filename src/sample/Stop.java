@@ -12,6 +12,7 @@ package sample;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import java.util.List;
 
 public class Stop implements Drawable{
     String id;
