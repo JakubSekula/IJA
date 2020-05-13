@@ -1,11 +1,17 @@
 package sample;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
+import javax.naming.ldap.Control;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,11 +19,13 @@ import static java.lang.System.exit;
 
 public class Bus implements Drawable, Time{
     List<Street> route = new ArrayList<Street>();
+    static List<Street> blueRoute = new ArrayList<>();
     private Shape bus;
     HashMap<String, Street> streets = new HashMap<String, Street>();
     String id, name;
     List<List<String>> plannedStops = new ArrayList<List<String>>();
     List<String> stopsOnRoute = new ArrayList<String>();
+    public static List<Shape> busLink;
     int currentStops = 0;
     String start;
     float posX, posY;
@@ -41,6 +49,7 @@ public class Bus implements Drawable, Time{
     boolean getDelay = true;
     boolean stationary = true;
     boolean round = false;
+    static boolean busClicked = false;
 
     private void changeTimer(){
         timerTime++;
@@ -347,6 +356,7 @@ public class Bus implements Drawable, Time{
         posY = route.get( 0 ).getMiddle().getY();
 
         bus = new Circle( 0, 0, 3, Color.RED );
+        onBusClick();
 
         // -1 protoze zastavka na konci je stejna jako na zacatku kvuli dojeti na zastavku
         for( int i = currentStops; i < stopsOnRoute.size() - 1; i++ ){
@@ -355,6 +365,48 @@ public class Bus implements Drawable, Time{
                 exit(60);
             }
         }
+    }
+
+    private void onBusClick(){
+        bus.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                busClicked = true;
+                busLink = new ArrayList<>();
+                busLink.add(new Line(310, 100, 940, 100));
+                int cnt = 0;
+                //zastavky na line ne scene2
+                for (int i = 310; i <= 940; i += 70){
+                    busLink.add(new Circle(i, 100, 5, Color.BLUE));
+                    busLink.add(new Text(i-20, 130, plannedStops.get(cnt).get(0)));
+                    busLink.add(new Text(i-20, 80, plannedStops.get(cnt++).get(1)));
+                }
+                //autobus na linke na scene2
+                if(stationary){//je na zastavke
+                    busLink.add(new Circle(310+70*now, 100, 5, Color.RED));
+                }
+                else{
+                    busLink.add(new Circle(310+70*now+35, 100, 5, Color.RED));
+                }
+                //zvyraznenie cesty na mape
+//                for(Street str : route){
+                for(int i = 0; i < route.size(); ++i){
+                    route.get(i).getGUI().setStroke(Color.BLUE);
+                    route.get(i).getGUI().setStrokeWidth(2);
+                    blueRoute.add(route.get(i));
+                }
+            }
+        });
+    }
+
+    public static void clearPicked(){
+        if(!busClicked){
+            for(Street str : blueRoute){
+                str.getGUI().setStroke(Color.rgb(99, 214, 104));
+                str.getGUI().setStrokeWidth(1.5);
+            }
+        }
+        busClicked = false;
     }
 
     void setStart(String time){
