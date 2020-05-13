@@ -68,6 +68,15 @@ public class Bus implements Drawable, Time{
         getDelay = true;
         currDelay = 0;
         currenti++;
+        if( current.Detour.containsKey( "Church4" ) ){
+            System.out.println( current.Detour.get( "Church4" ).size() );
+        }
+        if( current.Detour.containsKey( "Church3" ) ){
+            System.out.println( current.Detour.get( "Church3" ).size() );
+        }
+        if( current.Detour.containsKey( "Church4" ) ){
+            System.out.println( current.Detour.get( "Church4" ).size() );
+        }
         current = route.get( currenti );
         travelledDistance  = 0;
         stopped = false;
