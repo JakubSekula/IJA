@@ -54,6 +54,12 @@ public class Controller {
         }
     }
 
+    public void setElementsScene2(List<Shape> elements){
+        for (Shape shape : elements){
+            scene2.getChildren().addAll(shape);
+        }
+    }
+
     public void startTime(){
         if(timer != null) timer.cancel();
         timer = new Timer(true);
@@ -73,6 +79,10 @@ public class Controller {
                         timeText.setText(timeToWrite);
                         for(Time update : updates){
                             update.update(time);
+                        }
+                        if(Bus.busLink != null){
+                            setElementsScene2(Bus.busLink);
+                            Bus.busLink = null;
                         }
                     }
                 });
@@ -118,6 +128,12 @@ public class Controller {
             changeRoute.setText("Zmena trasy");
             Street.changingLink = false;
         }
+    }
+
+    @FXML
+    private void onClickScene(){
+        Bus.clearPicked();
+        scene2.getChildren().clear();
     }
 
 }
