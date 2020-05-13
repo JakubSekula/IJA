@@ -7,6 +7,14 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Drzi informace o autobusech
+ * @file Bus.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 import javafx.event.EventHandler;
@@ -24,6 +32,9 @@ import java.util.List;
 
 import static java.lang.System.exit;
 
+/**
+ *
+ */
 public class Bus implements Drawable, Time{
     List<Street> route = new ArrayList<Street>();
     static List<Street> blueRoute = new ArrayList<>();
@@ -62,6 +73,10 @@ public class Bus implements Drawable, Time{
     boolean round = false;
     static boolean busClicked = false;
 
+    /**
+     * Metoda meni interni hondotu citace pri prekroceni hodiny na 0
+     *
+     */
     private void changeTimer(){
         timerTime++;
         if( timerTime == 3600 ){
@@ -70,6 +85,10 @@ public class Bus implements Drawable, Time{
 
     }
 
+    /**
+     * Metoda zmeni aktualni cestu na objizdnou trasu
+     *
+     */
     private void changeRoute(){
         int Rindex = route.indexOf( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( 0 ) );
 
@@ -99,6 +118,10 @@ public class Bus implements Drawable, Time{
 
     }
 
+    /**
+     * Metoda zjisti, jestli by mel bus zastavit
+     *
+     */
     private void shouldStop(){
         if( current.getStop() != null ){
             if( current.getStop().getId().equals( plannedStops.get( now + 1 ).get( 0 ) ) ){
@@ -109,6 +132,10 @@ public class Bus implements Drawable, Time{
         }
     }
 
+    /**
+     * Metoda prepne ulice na jejich krizeni
+     *
+     */
     private void switchStreet(){
         current.changeable = true;
         if( currenti == route.size() - 1 ){
@@ -126,6 +153,10 @@ public class Bus implements Drawable, Time{
         stopped = false;
     }
 
+    /**
+     * Metoda spocita vzdalenost mezi zastavkami
+     *
+     */
     private void distanceBetweenStops(){
         float distance = 0;
         for( int i = currenti; i < route.size(); i++ ){
@@ -145,12 +176,22 @@ public class Bus implements Drawable, Time{
         toStop = distance;
     }
 
+    /**
+     * Metoda nastavi krok pro bus
+     *
+     * @param  stepX krok v ose X
+     * @param  stepY krok v ose Y
+     */
     private void changePos( float stepX, float stepY ){
         this.posX = this.posX + stepX;
         this.posY = this.posY + stepY;
         travelledDistance = travelledDistance + step;
     }
 
+    /**
+     * Metoda spocita delku kroku na ulici
+     *
+     */
     private void countStep(){
         if( timeFromnow != 0 ) {
             step = toStop / ( timeToNextStop() - timeFromnow  - 3 + currDelay );
@@ -161,6 +202,10 @@ public class Bus implements Drawable, Time{
         recountStep = false;
     }
 
+    /**
+     * Metoda inicializuje bus
+     *
+     */
     private void setNull(){
         toStop = 0;
         Delay = 0;
@@ -179,6 +224,14 @@ public class Bus implements Drawable, Time{
         atEnd = false;
     }
 
+    /**
+     * Metoda spocita stepX a stepY
+     *
+     * @param sx zacatek ulice v X
+     * @param sy zacatek ulice v Y
+     * @param ex konec ulice v X
+     * @param ey konec ulice v Y
+     */
     private void countAdditions( float sx, float sy, float ex, float ey ){
 
         if( countDistance || recount ){
@@ -285,6 +338,10 @@ public class Bus implements Drawable, Time{
 
     }
 
+    /**
+     * Metoda pocita cas prijezdu do dalsi zastavky
+     *
+     */
     private int timeToNextStop(){
         int correction = 0;
         if( now == -1 ){
@@ -299,6 +356,11 @@ public class Bus implements Drawable, Time{
         return time2 - time1;
     }
 
+    /**
+     * Metoda pocita cas prijezdu do dalsi zastavky
+     *
+     * @param time udaj s casem odjezdu busu ze zastavky
+     */
     private int countDeparture( String time ){
 
         if( time.length() != 5 ){
@@ -320,6 +382,10 @@ public class Bus implements Drawable, Time{
         return minutes;
     }
 
+    /**
+     * Metoda spocita vola dalsi metody pro vypocet kroku
+     *
+     */
     private void nextPos(){
         if( now != plannedStops.size() - 1 ) {
             int correction = 0;
@@ -391,14 +457,27 @@ public class Bus implements Drawable, Time{
         nextPos();
     }
 
+    /**
+     * Metoda nacte ulice
+     *
+     * @param str hash s informacemi o ulicich
+     */
     void getStreets(HashMap<String, Street> str){
         this.streets = str;
     }
 
+    /**
+     * Metoda nazve autobus
+     *
+     * @param str nazev busu
+     */
     void nameIt(String str){
         this.name = str;
     }
 
+    /**
+     * Metoda ziska zastavky
+     */
     void getStops(){
         for(int i = 0; i < route.size(); ++i){
             if(route.get(i).getStop() != null){
@@ -421,6 +500,9 @@ public class Bus implements Drawable, Time{
         }
     }
 
+    /**
+     * Metoda pri kliknuti na bus da prikaz k vykresleni trasy busu
+     */
     private void onBusClick(){
         bus.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -453,6 +535,9 @@ public class Bus implements Drawable, Time{
         });
     }
 
+    /**
+     * Metoda vycisti barvy na puvodni
+     */
     public static void clearPicked(){
         if(!busClicked){
             for(Street str : blueRoute){
@@ -463,10 +548,19 @@ public class Bus implements Drawable, Time{
         busClicked = false;
     }
 
+
+    /**
+     * Metoda nastavi cas startu
+     * @param time
+     */
     void setStart(String time){
         this.start = time;
     }
 
+    /**
+     * Metoda nastavi cestu
+     * @param streetId
+     */
     void setRout(String streetId){
         int size = route.size();
 
@@ -485,7 +579,4 @@ public class Bus implements Drawable, Time{
         this.current = route.get(0);
         this.currenti = 0;
     }
-
-
 }
-

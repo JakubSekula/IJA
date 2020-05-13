@@ -7,6 +7,14 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Hlavni trida
+ * @file Main.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 import javafx.application.Application;

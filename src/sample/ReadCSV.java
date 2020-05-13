@@ -7,6 +7,14 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Trida cte vstupni informace a dava je do hashu
+ * @file ReadCSV.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 import java.io.File;

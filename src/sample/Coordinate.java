@@ -7,12 +7,25 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Trida drzi informace o koordinatech
+ * @file Coordinate.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 public class Coordinate {
     float x;
     float y;
 
+    /**
+     * Konstruktor
+     * @param x koordinat
+     * @param y koordinat
+     */
     public Coordinate(float x, float y) {
         if (x < 0 || y < 0) {
             throw new IllegalArgumentException();
@@ -39,24 +52,17 @@ public class Coordinate {
         return y;
     }
 
+    /**
+     * Shodnost ulice
+     * @param obj ulice
+     * @return
+     */
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass())
             return false;
         else {
             return (((Coordinate) obj).getX() == this.getX() && ((Coordinate) obj).getY() == this.getY());
         }
-    }
-
-    public static Coordinate create​(int x, int y) {
-        return new Coordinate(x, y);
-    }
-
-    public float diffX(Coordinate c) {
-        return x - c.getX();
-    }
-
-    public float diffY(Coordinate c) {
-        return y - c.getY();
     }
 }
 

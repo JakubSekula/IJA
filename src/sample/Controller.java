@@ -7,20 +7,28 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Hlavni trida pro aplikaci
+ * @file Controller.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * Hlavni Trida pro grafiku
+ */
 public class Controller {
 
     public int timerTime = 0;
@@ -49,6 +57,9 @@ public class Controller {
     long period = 1000;
 
 
+    /**
+     * @param elements
+     */
     public void setElements(List<Drawable> elements){
         this.elements = elements;
         for (Drawable drawable : elements){
@@ -59,12 +70,18 @@ public class Controller {
         }
     }
 
+    /**
+     * @param elements
+     */
     public void setElementsScene2(List<Shape> elements){
         for (Shape shape : elements){
             scene2.getChildren().addAll(shape);
         }
     }
 
+    /**
+     * Metoda nastartuje hodiny
+     */
     public void startTime(){
         if(timer != null) timer.cancel();
         timer = new Timer(true);
@@ -95,6 +112,9 @@ public class Controller {
         }, 0, period);
     }
 
+    /**
+     * Metoda priblizuje scenu
+     */
     @FXML
     private void onZoom(){
         scene.setScaleX((slider.getValue()/10)+1);
@@ -104,12 +124,18 @@ public class Controller {
         scene.layout();
     }
 
+    /**
+     * Metoda urychluje beh programu
+     */
     @FXML
     private void speedChange(){
         period = (long) (1000 - speeder.getValue());
         this.startTime();
     }
 
+    /**
+     * Metoda zresetuje simulaci
+     */
     @FXML
     private void onClickReset(){
         scene.setScaleX(1);
@@ -153,6 +179,9 @@ public class Controller {
 
     }
 
+    /**
+     * Metoda zmeni napis na tlacitku
+     */
     @FXML
     private void onClickChange(){
         if(changeRoute.isSelected()){
@@ -167,6 +196,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Metoda zrusi zbarveni dane linky
+     */
     @FXML
     private void onClickScene(){
         Bus.clearPicked();

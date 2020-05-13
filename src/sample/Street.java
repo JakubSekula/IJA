@@ -7,6 +7,14 @@
  *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
  ******************************************************************************/
 
+/**
+ * Trida drzi informace o ulicich
+ * @file Street.java.
+ * @author Jakub Sekula (xsekul01)
+ * @author Ondrej Potúček (xpotuc06)
+ *
+ */
+
 package sample;
 
 import javafx.event.EventHandler;
@@ -110,7 +118,6 @@ public class Street implements Drawable {
                 }
                 //ulice nenavazuju - chyba
                 else {
-                    System.out.println( "HERE" );
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setContentText("Cesty na sebe nenavazuji!");
