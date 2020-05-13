@@ -8,10 +8,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
-import javax.naming.ldap.Control;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,17 +31,21 @@ public class Bus implements Drawable, Time{
     float toStop = 0;
     int now = 0;
     int currenti = 0;
+    private int timeFromStop = 0;
     float step;
     boolean recountStep = false;
     boolean countDistance = true;
     float travelledDistance = 0;
     boolean hasStop = true;
+    boolean deleteTime = false;
     float rest = 0;
     boolean stopped = false;
     boolean changeDir = true;
     boolean useRest = false;
     boolean atEnd = false;
+    int timeFromnow = 0;
     int timerTime = 0;
+    private boolean recount = false;
     int currDelay = 0;
     int Delay = 0;
     boolean getDelay = true;
@@ -68,6 +70,35 @@ public class Bus implements Drawable, Time{
         }
     }
 
+    private void changeRoute(){
+        int Rindex = route.indexOf( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( 0 ) );
+
+        ArrayList<Street> tmpList = new ArrayList<>();
+
+        for( int i = 1; i < current.Detour.get(route.get( currenti ).getId() ).size(); i++ ){
+            tmpList.add( current.Detour.get(route.get( currenti ).getId() ).get( i ) );
+        }
+
+        Street tmp =  route.get( Rindex );
+
+        for( int i = 0; i < plannedStops.size(); i++ ){
+            if( tmp.getId().equals( plannedStops.get( now + 1 ).get( 0 ) ) ){
+                plannedStops.remove( now + 1 );
+                //now--;
+            }
+        }
+
+        route.remove( Rindex );
+
+        for( int i = tmpList.size() - 1; i >= 0; i-- ){
+            route.add( Rindex, tmpList.get( i ) );
+        }
+
+        current = route.get( currenti );
+        recount = true;
+
+    }
+
     private void switchStreet(){
         current.changeable = true;
         if( currenti == route.size() - 1 ){
@@ -77,16 +108,10 @@ public class Bus implements Drawable, Time{
         getDelay = true;
         currDelay = 0;
         currenti++;
-        if( current.Detour.containsKey( "Church4" ) ){
-            System.out.println( current.Detour.get( "Church4" ).size() );
-        }
-        if( current.Detour.containsKey( "Church3" ) ){
-            System.out.println( current.Detour.get( "Church3" ).size() );
-        }
-        if( current.Detour.containsKey( "Church4" ) ){
-            System.out.println( current.Detour.get( "Church4" ).size() );
-        }
         current = route.get( currenti );
+        if( route.get( currenti ).Detour.containsKey( route.get( currenti ).getId() ) ){
+            changeRoute();
+        }
         travelledDistance  = 0;
         stopped = false;
     }
@@ -117,7 +142,12 @@ public class Bus implements Drawable, Time{
     }
 
     private void countStep(){
-        step = toStop / ( timeToNextStop() - 3 + currDelay );
+        if( timeFromnow != 0 ) {
+            step = toStop / ( timeToNextStop() - timeFromnow  - 3 + currDelay );
+        } else {
+            step = toStop / ( timeToNextStop() - 3 + currDelay );
+        }
+
         currDelay = 0;
         recountStep = false;
     }
@@ -127,6 +157,7 @@ public class Bus implements Drawable, Time{
         Delay = 0;
         now = 0;
         currenti = 0;
+        current.changeable = true;
         step = 0;
         recountStep = false;
         countDistance = true;
@@ -141,9 +172,17 @@ public class Bus implements Drawable, Time{
 
     private void countAdditions( float sx, float sy, float ex, float ey ){
 
-        if( countDistance ){
+        if( countDistance || recount ){
+            if( recount ){
+                timeFromnow = timeFromStop;
+            }
+            if( deleteTime ){
+                timeFromnow = 0;
+                deleteTime  = false;
+            }
             distanceBetweenStops();
             countStep();
+            recount = false;
             countDistance = false;
         }
 
@@ -188,6 +227,8 @@ public class Bus implements Drawable, Time{
                     if( travelledDistance + step >= hypotenuse ){
                         this.posX = current.getMiddle().getX();
                         this.posY = current.getMiddle().getY();
+                        deleteTime = true;
+                        timeFromStop = 0;
                         stationary = true;
                         round = true;
                         setNull();
@@ -197,8 +238,10 @@ public class Bus implements Drawable, Time{
             } else {
                 if( travelledDistance + step >= hypotenuse / 2 &&  stopped == false ){
                     travelledDistance = hypotenuse / 2;
+                    timeFromStop = 0;
                     this.posX = current.getMiddle().getX();
                     this.posY = current.getMiddle().getY();
+                    deleteTime = true;
                     if( atEnd ){
                         return;
                     }
@@ -274,6 +317,8 @@ public class Bus implements Drawable, Time{
             if( now == -1 ) {
                 correction = 1;
             }
+
+            timeFromStop++;
 
             if( timerTime == countDeparture( plannedStops.get( 0 ).get( 1 ) ) ){
                 round = false;

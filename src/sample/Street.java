@@ -82,7 +82,6 @@ public class Street implements Drawable {
         if(changingLink){
             if(alternateRoute.size() == 0){
                 usingKey = this.getId();
-                System.out.println( this.getId() );
                 List<Street> test2 = new ArrayList<>();
                 Detour.put( usingKey, test2 );
                 street.setStroke(grey);
