@@ -162,6 +162,8 @@ public class Controller {
         else{
             changeRoute.setText("Zmena trasy");
             Street.changingLink = false;
+            Street.alternateRoute.clear();
+            Street.usingKey = null;
         }
     }
 

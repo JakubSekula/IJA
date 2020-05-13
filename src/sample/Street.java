@@ -102,7 +102,6 @@ public class Street implements Drawable {
             List<Street> test = Detour.get( usingKey );
             test.add( this );
             Detour.put( usingKey, test );
-            alternateRoute.add(this);
 
             if( alternateRoute.size() > 0){
                 //ak tato ulica navazuje na poslednu pridanu do obchadzky
@@ -111,6 +110,7 @@ public class Street implements Drawable {
                 }
                 //ulice nenavazuju - chyba
                 else {
+                    System.out.println( "HERE" );
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
                     alert.setContentText("Cesty na sebe nenavazuji!");
