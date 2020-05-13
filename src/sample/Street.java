@@ -1,16 +1,6 @@
-/******************************************************************************
- * Projekt: Aplikace zobrazující autobusovou dopravu                          *
- * Předmet: Seminář Java - FIT VUT v Brně                                     *
- * Rok:     2019/2020                                                         *
- * Autoři:                                                                    *
- *          Jakub Sekula (xsekul01) - xsekul00@stud.fit.vutbr.cz              *
- *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
- ******************************************************************************/
-
 package sample;
 
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -18,6 +8,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -31,6 +22,8 @@ public class Street implements Drawable {
     List<Coordinate> coords = new ArrayList<Coordinate>();
     public int color = 1;   //1-green, 2-orange, 3-red
     public boolean changeable = true;
+    public static HashMap<String, List<Street>> Detour = new HashMap<>();
+    public static String usingKey = null;
     public static boolean changingLink = false;
     public static List<Street> alternateRoute = new ArrayList<>(); //!< Vektor ciest v obchadzke, prva cesta je uzavreta a ostatne su obchadzka
 
@@ -87,30 +80,20 @@ public class Street implements Drawable {
 
     private void closeStreet() {
         if(changingLink){
+            // System.out.println( this.getId() );
             if(alternateRoute.size() == 0){
+                usingKey = this.getId();
+                List<Street> test2 = new ArrayList<>();
+                Detour.put( usingKey, test2 );
                 street.setStroke(grey);
             }
             else{
                 street.setStroke(blue);
             }
-
-            if( alternateRoute.size() > 0){
-                //ak tato ulica navazuje na poslednu pridanu do obchadzky
-                if(alternateRoute.get(alternateRoute.size()-1).equals(this)){
-                    alternateRoute.add(this);
-                }
-                //ulice nenavazuju - chyba
-                else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setContentText("Cesty na sebe nenavazuji!");
-                    alert.showAndWait();
-                }
-            }
-            else{
-                alternateRoute.add(this);
-            }
-
+            List<Street> test = Detour.get( usingKey );
+            test.add( this );
+            Detour.put( usingKey, test );
+            alternateRoute.add(this);
         }
     }
 
