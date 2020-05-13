@@ -1,3 +1,12 @@
+/******************************************************************************
+ * Projekt: Aplikace zobrazující autobusovou dopravu                          *
+ * Předmet: Seminář Java - FIT VUT v Brně                                     *
+ * Rok:     2019/2020                                                         *
+ * Autoři:                                                                    *
+ *          Jakub Sekula (xsekul01) - xsekul00@stud.fit.vutbr.cz              *
+ *          Ondrej Potúček (xpotuc06) - xpotuc06@stud.fit.vutbr.cz            *
+ ******************************************************************************/
+
 package sample;
 
 import javafx.event.EventHandler;
@@ -19,10 +28,10 @@ public class Bus implements Drawable, Time{
     List<Street> route = new ArrayList<Street>();
     static List<Street> blueRoute = new ArrayList<>();
     private Shape bus;
-    HashMap<String, Street> streets = new HashMap<String, Street>();
-    String id, name;
+    HashMap<String, Street> streets = new HashMap<>();
+    String name;
     List<List<String>> plannedStops = new ArrayList<List<String>>();
-    List<String> stopsOnRoute = new ArrayList<String>();
+    List<String> stopsOnRoute = new ArrayList<>();
     public static List<Shape> busLink;
     int currentStops = 0;
     String start;
@@ -214,7 +223,7 @@ public class Bus implements Drawable, Time{
             rest = rest - step;
             recountStep = true;
             useRest = true;
-            if( atEnd == false ){
+            if(!atEnd){
                 switchStreet();
             }
         }
@@ -236,7 +245,7 @@ public class Bus implements Drawable, Time{
                     }
                 }
             } else {
-                if( travelledDistance + step >= hypotenuse / 2 &&  stopped == false ){
+                if( travelledDistance + step >= hypotenuse / 2 && !stopped){
                     travelledDistance = hypotenuse / 2;
                     timeFromStop = 0;
                     this.posX = current.getMiddle().getX();
@@ -323,7 +332,7 @@ public class Bus implements Drawable, Time{
             if( timerTime == countDeparture( plannedStops.get( 0 ).get( 1 ) ) ){
                 round = false;
             }
-            if ( round == true || countDeparture(plannedStops.get(now + correction).get(1)) + Delay > timerTime && stationary ) {
+            if ( round || countDeparture(plannedStops.get(now + correction).get(1)) + Delay > timerTime && stationary ) {
                 return;
             } else {
                 stationary = false;
