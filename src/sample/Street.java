@@ -79,7 +79,6 @@ public class Street implements Drawable {
         });
     }
 
-    
     public static void clearAtlernateRoute(){
         while(alternateRoute.size() != 0){
             alternateRoute.get(0).setBackColor();
@@ -263,3 +262,4 @@ public class Street implements Drawable {
         return street;
     }
 }
+
