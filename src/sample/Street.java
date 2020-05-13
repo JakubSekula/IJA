@@ -8,6 +8,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -21,6 +22,8 @@ public class Street implements Drawable {
     List<Coordinate> coords = new ArrayList<Coordinate>();
     public int color = 1;   //1-green, 2-orange, 3-red
     public boolean changeable = true;
+    public static HashMap<String, List<Street>> Detour = new HashMap<>();
+    public static String usingKey = null;
     public static boolean changingLink = false;
     public static List<Street> alternateRoute = new ArrayList<>(); //!< Vektor ciest v obchadzke, prva cesta je uzavreta a ostatne su obchadzka
 
@@ -77,12 +80,19 @@ public class Street implements Drawable {
 
     private void closeStreet() {
         if(changingLink){
+            // System.out.println( this.getId() );
             if(alternateRoute.size() == 0){
+                usingKey = this.getId();
+                List<Street> test2 = new ArrayList<>();
+                Detour.put( usingKey, test2 );
                 street.setStroke(grey);
             }
             else{
                 street.setStroke(blue);
             }
+            List<Street> test = Detour.get( usingKey );
+            test.add( this );
+            Detour.put( usingKey, test );
             alternateRoute.add(this);
         }
     }
