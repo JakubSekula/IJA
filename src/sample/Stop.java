@@ -22,8 +22,20 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 public class Stop implements Drawable{
+
+    /**
+     * identifikator
+     */
     String id;
+
+    /**
+     * pozice zastavky
+     */
     Coordinate position;
+
+    /**
+     * ulice na ktere se nachazi zastavka
+     */
     Street street;
 
     /**

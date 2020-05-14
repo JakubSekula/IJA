@@ -18,7 +18,15 @@
 package sample;
 
 public class Coordinate {
+
+    /**
+     * x souradnice
+     */
     float x;
+
+    /**
+     * y souradnice
+     */
     float y;
 
     /**
