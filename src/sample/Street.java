@@ -32,16 +32,39 @@ import java.util.List;
 import static java.lang.Math.abs;
 
 public class Street implements Drawable {
+
+    /**
+     * grafika ulice
+     */
     private Shape street;
+
     String id, name;
+
+    /**
+     * stred ulice
+     */
     Coordinate middle;
+
+    /**
+     * delka ulice
+     */
     float streetLength = 0;
+
+    /**
+     * zastavka
+     */
     Stop stop = null;
+
+    /**
+     * koordinaty ulice
+     */
     List<Coordinate> coords = new ArrayList<Coordinate>();
+
     /**
      * barva ulice, stupen provozu
      */
     public int color = 1;   //1-green, 2-orange, 3-red
+
     /**
      * provoz neni mozne menit, jestli je na ni bus
      */

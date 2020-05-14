@@ -22,16 +22,25 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Line {
+
+    /**
+     * indetifikator
+     */
     String id;
-    List<Street> streets = new ArrayList<Street>();
+
     /**
      * hash zastavek
      */
     HashMap<String, List<List<String>>> stoptimes = new HashMap<String, List<List<String>>>();
+
     /**
-     * list zastavk
+     * list zastavky
      */
     List<List<String>> stoptime = new ArrayList<List<String>>();
+
+    /**
+     * pocet instanci kolik se ma vytvorit pro linku
+     */
     int reps;
 
     /**
