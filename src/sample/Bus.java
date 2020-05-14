@@ -92,6 +92,10 @@ public class Bus implements Drawable, Time{
     private void changeRoute(){
         int Rindex = route.indexOf( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( 0 ) );
 
+        if( Rindex == -1 ){
+            return;
+        }
+
         ArrayList<Street> tmpList = new ArrayList<>();
 
         for( int i = 1; i < current.Detour.get(route.get( currenti ).getId() ).size(); i++ ){
@@ -103,7 +107,6 @@ public class Bus implements Drawable, Time{
         for( int i = 0; i < plannedStops.size(); i++ ){
             if( tmp.getId().equals( plannedStops.get( now + 1 ).get( 0 ) ) ){
                 plannedStops.remove( now + 1 );
-                //now--;
             }
         }
 
