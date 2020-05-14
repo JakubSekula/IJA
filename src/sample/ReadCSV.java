@@ -28,9 +28,21 @@ import java.util.Scanner;
  * Trieda pre načítanie informácií z .csv súborov
  */
 public class ReadCSV {
+    /**
+     * HashMap ulic
+     */
     private HashMap<String, Street> mapHash = new HashMap<>();
+    /**
+     * HashMap zastavok
+     */
     private HashMap<String, Stop> mapStopsHash = new HashMap<>();
+    /**
+     * HashMap liniek
+     */
     private HashMap<String, Line> mapLineHash = new HashMap<>();
+    /**
+     * HashMap autobusov
+     */
     private HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<>();
 
     /**

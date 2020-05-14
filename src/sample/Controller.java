@@ -32,28 +32,57 @@ import java.util.*;
 public class Controller {
 
     public int timerTime = 0;
-
+    /**
+     * Hlavny panel pre vykreslenie mapy
+     */
     @FXML
     private Pane scene;
+    /**
+     * Spodny panel pre zobrazenie trasy autobusu
+     */
     @FXML
     private Pane scene2;
+    /**
+     * Slider na zoom
+     */
     @FXML
     private Slider slider;
-    @FXML
-    private Pane parentScene;
+    /**
+     * Slider pre nastavenie rychlosti animacie
+     */
     @FXML
     private Slider speeder;
+    /**
+     * TextField pre zobrazenie casu
+     */
     @FXML
     private TextField timeText;
+    /**
+     * Panel na ktorom je mapa
+     */
     @FXML
     private ScrollPane scroll;
+    /**
+     * Tlacidlo na nastavenie obchadzky
+     */
     @FXML
     private ToggleButton changeRoute;
 
-    private List<Drawable> elements = new ArrayList<>();
+    /**
+     * Pole pohybujucich objektov
+     */
     private List<Time> updates = new ArrayList<>();
+    /**
+     * Casovac
+     */
     private Timer timer;
+    /**
+     * Cas
+     */
     private LocalTime time = LocalTime.of(12, 00, 00);
+    /**
+     * Rychlost aktualizacie casovaca
+     */
     long period = 1000;
 
 
@@ -62,7 +91,6 @@ public class Controller {
      * @param elements List objektov na vykreslenie
      */
     public void setElements(List<Drawable> elements){
-        this.elements = elements;
         for (Drawable drawable : elements){
             scene.getChildren().addAll(drawable.getGUI());
             if(drawable instanceof Time){
