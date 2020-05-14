@@ -24,22 +24,46 @@ import java.util.List;
 public class Line {
     String id;
     List<Street> streets = new ArrayList<Street>();
+    /**
+     * hash zastavek
+     */
     HashMap<String, List<List<String>>> stoptimes = new HashMap<String, List<List<String>>>();
+    /**
+     * list zastavk
+     */
     List<List<String>> stoptime = new ArrayList<List<String>>();
     int reps;
 
+    /**
+     * Konstruktor tridy, priradi id
+     * @param str identifikator
+     */
     public Line(String str){
         id = str;
     }
 
+    /**
+     * Metoda podle parametru nainstancuje busy
+     * @param repeats pocet instanci bus
+     */
     public void setReps(String repeats){
         this.reps = Integer.parseInt(repeats);
     }
 
+    /**
+     * Metoda naplni List zastavkami
+     * @param id identifikator
+     * @param stoptime List zastavek a casu
+     */
     public void fillMap(String id, List<List<String>> stoptime){
         this.stoptimes.put(id, stoptime);
     }
 
+    /**
+     * Metoda vrati informace o zastavkach
+     * @param id identifikator
+     * @return vraci List zastavek
+     */
     public List<List<String>> getStopInfo(String id){
         return this.stoptimes.get(id);
     }

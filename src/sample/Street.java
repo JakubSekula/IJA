@@ -38,11 +38,29 @@ public class Street implements Drawable {
     float streetLength = 0;
     Stop stop = null;
     List<Coordinate> coords = new ArrayList<Coordinate>();
+    /**
+     * barva ulice, stupen provozu
+     */
     public int color = 1;   //1-green, 2-orange, 3-red
+    /**
+     * provoz neni mozne menit, jestli je na ni bus
+     */
     public boolean changeable = true;
+    /**
+     * hash objizdnych tras
+     */
     public static HashMap<String, List<Street>> Detour = new HashMap<>();
+    /**
+     * aktualni hash key
+     */
     public static String usingKey = null;
+    /**
+     * jestli je mozne menit ulice
+     */
     public static boolean changingLink = false;
+    /**
+     * list objizdek
+     */
     public static List<Street> alternateRoute = new ArrayList<>(); //!< Vektor ciest v obchadzke, prva cesta je uzavreta a ostatne su obchadzka
 
 
@@ -52,6 +70,13 @@ public class Street implements Drawable {
     private  Color blue = Color.rgb(0,170,240);
     private  Color grey = Color.rgb(170,170,170);
 
+    /**
+     * Konstruktor tridy
+     * @param str identifikator
+     * @param name nazev ulice
+     * @param c0 koordinat
+     * @param c1 koordinat
+     */
     public Street(String str, String name, Coordinate c0, Coordinate c1){
         id = str;
         this.name = name;
@@ -64,6 +89,10 @@ public class Street implements Drawable {
         countStreetLength();
 
         street.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            /**
+             * Hnadler kliku
+             * @param event mouse klik
+             */
             @Override
             public void handle(MouseEvent event){
                 if(event.getButton() == MouseButton.PRIMARY && changeable ) {
@@ -90,12 +119,18 @@ public class Street implements Drawable {
         });
     }
 
+    /**
+     * Metoda vycisti objizdnou trasu
+     */
     public static void clearAtlernateRoute(){
         while(alternateRoute.size() != 0){
             alternateRoute.get(0).setBackColor();
         }
     }
 
+    /**
+     * Metoda prida ulici, pokud je v poradku, do objizdky
+     */
     private void closeStreet() {
         if(changingLink){
             if(alternateRoute.size() == 0){
@@ -131,6 +166,9 @@ public class Street implements Drawable {
         }
     }
 
+    /**
+     * nastavi barvu ulice podle provozu
+     */
     private void setBackColor() {
         alternateRoute.remove(this);
         if(this.color == 1) this.street.setStroke(green);
@@ -138,6 +176,9 @@ public class Street implements Drawable {
         else if(this.color == 3) this.street.setStroke(red);
     }
 
+    /**
+     * Metoda pocita delku ulice
+     */
     private void countStreetLength(){
         float XDiff = Math.abs( coords.get( 0 ).getX() - coords.get( 1 ).getX() );
         float YDiff = Math.abs( coords.get( 0 ).getY() - coords.get( 1 ).getY() );
@@ -148,18 +189,18 @@ public class Street implements Drawable {
 
     }
 
+    /**
+     * Metoda vraci identifikator ulice
+     * @return identifikator
+     */
     public String getId(){
         return id;
     }
 
-    public String getName(){
-        return name;
-    }
-
-    public List<Coordinate> getCoordinates(){
-        return coords;
-    }
-
+    /**
+     * Vraci zastavku
+     * @return vraci null nebo zastavku
+     */
     Stop getStop(){
         if( this.stop != null ){
             return stop;
@@ -168,6 +209,11 @@ public class Street implements Drawable {
         }
     }
 
+    /**
+     * Prida zastavku na ulici
+     * @param stop zastavka
+     * @return bool
+     */
     public boolean addStop(Stop stop){
         try{
             if(stop != null) {
@@ -184,30 +230,27 @@ public class Street implements Drawable {
         return true;
     }
 
+    /**
+     * Metoda vraci zacatek ulice
+     * @return koordinat
+     */
     public Coordinate begin(){
         return coords.get(0);
     }
 
+    /**
+     * Metoda vraci konec ulice
+     * @return koordinat
+     */
     public Coordinate end(){
         return coords.get(coords.size()-1);
     }
 
-    public boolean follows(Street s){
-        if(s.begin().equals(this.begin())){
-            return true;
-        }
-        else if(s.end().equals(this.begin())){
-            return true;
-        }
-        else if(s.begin().equals(this.end())){
-            return true;
-        }
-        else if(s.end().equals(this.end())){
-            return true;
-        }
-        else return false;
-    }
-
+    /**
+     * Metoda pocita stred ulice
+     * @param c0 koordinat
+     * @param c1 koordinat
+     */
     void countMiddle(Coordinate c0, Coordinate c1){
         float startX = c0.getX();
         float startY = c0.getY();
@@ -238,19 +281,36 @@ public class Street implements Drawable {
         this.middle = new Coordinate( (float) midX, (float) midY );
     }
 
+    /**
+     * Vraci souradnice stredu
+     * @return koordinat
+     */
     public Coordinate getMiddle(){
         countMiddle(this.begin(), this.end());
         return middle;
     }
 
+    /**
+     * Vraci zacatek ulice
+     * @return koordinat
+     */
     public Coordinate getStreetStart(){
         return coords.get(0);
     }
 
+    /**
+     * Vraci konec ulice
+     * @return koordinat
+     */
     public Coordinate getStreetEnd(){
         return coords.get(coords.size()-1);
     }
 
+    /**
+     * Metoda porovnava ulice
+     * @param street ulice
+     * @return bool
+     */
     public boolean equals(Street street){
         if( ( this.getStreetEnd().getX() == street.getStreetStart().getX() && this.getStreetEnd().getY() == street.getStreetStart().getY() ) ||
         ( this.getStreetEnd().getX() == street.getStreetEnd().getX() && this.getStreetEnd().getY() == street.getStreetEnd().getY() )){
@@ -263,6 +323,11 @@ public class Street implements Drawable {
         }
     }
 
+    /**
+     * Metoda zjisti jestli se dalsi ulice napojuje pres jeji konec nebo zacatek
+     * @param s2 ulice
+     * @return bool
+     */
     public boolean Direction( Street s2 ){
         if( ( ( this.getStreetStart().getX() == s2.getStreetStart().getX() ) && ( this.getStreetStart().getY() == s2.getStreetStart().getY() ) ) ||
             ( ( this.getStreetStart().getX() == s2.getStreetEnd().getX() ) && ( this.getStreetStart().getY() == s2.getStreetEnd().getY() ) ) ){
@@ -274,6 +339,10 @@ public class Street implements Drawable {
         }
     }
 
+    /**
+     * Vraci gui objekt
+     * @return vraci gui objekt
+     */
     @Override
     public Shape getGUI() {
         return street;
