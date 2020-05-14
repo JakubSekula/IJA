@@ -274,7 +274,7 @@ public class ReadCSV {
      * Metóda na vypočítanie odchodu autobusu.
      * @param time Čas
      * @param reps Počet liniek za hodinu
-     * @param iter
+     * @param iter Poradove cislo autobusu
      * @return Odchod autobusu
      */
     private String getTimeDiff(String time, int reps, int iter){

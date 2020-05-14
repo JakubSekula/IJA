@@ -61,9 +61,9 @@ public class Coordinate {
     }
 
     /**
-     * Shodnost ulice
-     * @param obj ulice
-     * @return
+     * Shodnost suradnice
+     * @param obj souradnice
+     * @return True ak sa souradnice rovnaji
      */
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass())

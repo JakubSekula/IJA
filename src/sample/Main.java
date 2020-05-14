@@ -32,8 +32,8 @@ public class Main extends Application {
 
     /**
      * Metoda pre prvotne nastavenie aplikacie
-     * @param primaryStage
-     * @throws Exception
+     * @param primaryStage JavaFX container
+     * @throws Exception Vynimka
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
