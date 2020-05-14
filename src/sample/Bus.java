@@ -18,6 +18,7 @@
 package sample;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -231,6 +232,15 @@ public class Bus implements Drawable, Time{
      *
      */
     private void changeRoute(){
+
+        if( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( 0 ).equals( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).size() - 1 ) ) == false || route.get( currenti ).Detour.get(route.get( currenti ).getId() ).size() <= 2 ){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Cesty na sebe nenavazuji!");
+            alert.showAndWait();
+            exit( 20 );
+        }
+
         int Rindex = route.indexOf( route.get( currenti ).Detour.get(route.get( currenti ).getId() ).get( 0 ) );
 
         if( Rindex == -1 ){

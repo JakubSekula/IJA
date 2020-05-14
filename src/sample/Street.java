@@ -186,6 +186,8 @@ public class Street implements Drawable {
                 alternateRoute.add(this);
             }
 
+        } else {
+            System.out.println( "HEER" );
         }
     }
 
