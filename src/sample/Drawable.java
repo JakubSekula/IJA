@@ -21,7 +21,14 @@ import javafx.scene.shape.Shape;
 
 import java.util.List;
 
+/**
+ * Interface pre objekty ktoré je možné vykresliť.
+ */
 public interface Drawable {
+    /**
+     * Funkcia na vrátenie objektu typu Shape na vykreslenie.
+     * @return Objekt typu Shape
+     */
     Shape getGUI();
 }
 

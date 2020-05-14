@@ -58,7 +58,8 @@ public class Controller {
 
 
     /**
-     * @param elements
+     * Metóda pre vykreslenie elementov na mapu.
+     * @param elements List objektov na vykreslenie
      */
     public void setElements(List<Drawable> elements){
         this.elements = elements;
@@ -71,7 +72,8 @@ public class Controller {
     }
 
     /**
-     * @param elements
+     * Metóda pre vykreslenie elementov na spodnú plochu.
+     * @param elements List objektov na vykreslenie
      */
     public void setElementsScene2(List<Shape> elements){
         for (Shape shape : elements){
@@ -148,6 +150,7 @@ public class Controller {
         scroll.setVvalue(0.1);
         Street.clearAtlernateRoute();
         changeRoute.setText("Zmena trasy");
+        changeRoute.setSelected(false);
         Street.changingLink = false;
         scene2.getChildren().clear();
         scene.getChildren().clear();

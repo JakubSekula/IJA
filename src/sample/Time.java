@@ -19,7 +19,14 @@ package sample;
 
 import java.time.LocalTime;
 
+/**
+ * Interface pre pohybujúce objekty.
+ */
 public interface Time {
+    /**
+     * Metóda pre aktualizáciu polohy objektu.
+     * @param time Čas
+     */
     void update(LocalTime time);
 }
 

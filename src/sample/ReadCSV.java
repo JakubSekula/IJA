@@ -24,16 +24,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Trieda pre načítanie informácií z .csv súborov
+ */
 public class ReadCSV {
     private HashMap<String, Street> mapHash = new HashMap<>();
     private HashMap<String, Stop> mapStopsHash = new HashMap<>();
     private HashMap<String, Line> mapLineHash = new HashMap<>();
     private HashMap<String, HashMap<String, Bus>> mapBusHash = new HashMap<>();
-    private HashMap<String, Bus> busHash = new HashMap<>();
 
-//    HashMap<String, Bus> busHash = new HashMap<String, Street>();
-//    HashMap<String, Line> lineHash = new HashMap<String, Street>();
-
+    /**
+     * Konstruktor podla typu suboru nacita mapu, autobusy alebo linky.
+     * @param file Názov súboru
+     * @param fileType Typ súboru
+     * @param streets Cesty na mape
+     * @param lines Linky
+     */
     public ReadCSV(String file, String fileType, HashMap<String, Street> streets, HashMap<String, Line> lines){
         switch (fileType) {
             case "Map":
@@ -50,6 +56,10 @@ public class ReadCSV {
         }
     }
 
+    /**
+     * Metóda pre načítanie mapy.
+     * @param file Názov súboru
+     */
     private void loadMap(String file){
         try {
             Scanner reader = new Scanner(new File(file));
@@ -85,6 +95,11 @@ public class ReadCSV {
         }
     }
 
+    /**
+     * Metóda na načítanie liniek.
+     * @param file Názov súboru
+     * @param streets Cesty
+     */
     private void loadLine(String file, HashMap<String, Street> streets){
         try{
             Scanner reader = new Scanner(new File(file));
@@ -136,6 +151,12 @@ public class ReadCSV {
         }
     }
 
+    /**
+     * Metóda pre načítanie autobusov.
+     * @param file Názov súboru
+     * @param streets Cesty
+     * @param lines Linky
+     */
     private void loadBus(String file, HashMap<String, Street> streets, HashMap<String, Line> lines){
         try{
             Scanner reader = new Scanner(new File(file));
@@ -237,7 +258,14 @@ public class ReadCSV {
         }
     }
 
-    String getTimeDiff(String time, int reps, int iter){
+    /**
+     * Metóda na vypočítanie odchodu autobusu.
+     * @param time Čas
+     * @param reps Počet liniek za hodinu
+     * @param iter
+     * @return Odchod autobusu
+     */
+    private String getTimeDiff(String time, int reps, int iter){
         if( time.length() != 5 ){
             System.exit( 50 );
         }
@@ -256,19 +284,35 @@ public class ReadCSV {
         return departure;
     }
 
-    HashMap<String, Street> getMapHash(){
+    /**
+     * Metóda na vrátenie HashMap ulíc.
+     * @return HashMap ulíc
+     */
+    public HashMap<String, Street> getMapHash(){
         return mapHash;
     }
 
-    HashMap<String, Stop> getStopsHash(){
+    /**
+     * Metóda na vrátenie HashMap zastávok.
+     * @return HashMap zastávok
+     */
+    public HashMap<String, Stop> getStopsHash(){
         return mapStopsHash;
     }
 
-    HashMap<String, Line> getLineHash(){
+    /**
+     * Metóda na vrátenie HashMap liniek.
+     * @return HashMap liniek
+     */
+    public HashMap<String, Line> getLineHash(){
         return mapLineHash;
     }
 
-    HashMap<String, HashMap<String, Bus>> getBusHash(){
+    /**
+     * Metóda na vrátenie HashMap autobusov.
+     * @return HashMap autobusov
+     */
+    public HashMap<String, HashMap<String, Bus>> getBusHash(){
         return mapBusHash;
     }
 }
