@@ -25,8 +25,16 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+/**
+ * Hlavna trieda
+ */
 public class Main extends Application {
 
+    /**
+     * Metoda pre prvotne nastavenie aplikacie
+     * @param primaryStage JavaFX container
+     * @throws Exception Vynimka
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
@@ -65,7 +73,10 @@ public class Main extends Application {
 
     }
 
-
+    /**
+     * Metoda pre spustenie aplikacie
+     * @param args Pole argumentov
+     */
     public static void main(String[] args) {
         launch(args);
     }
